@@ -1,0 +1,43 @@
+main()
+{ 
+
+	x=1;
+
+	int[] array = new int [5];
+
+	while(x=5)
+	{
+		x = 1;
+	}
+
+	helper(x==x, y!=y);
+	
+	helper2();
+
+}
+
+public helper ()
+{
+	x = 2;
+
+	if(x=20) 
+	{
+		y=4;
+	}
+
+	if(x=5) 
+	{
+		y=2;
+	}
+	else
+	{
+		y=10;
+	}
+}
+
+private static helper2 ()
+{
+	if(x>y)
+	{
+	}
+}

@@ -1,0 +1,205 @@
+
+- AProgram
+     |- AMainMethod
+     |  |- main
+     |  |- (
+     |  |- )
+     |  |- {
+     |  |- ASecondList
+     |  |  |- ASide1Varassign
+     |  |  |  |- x
+     |  |  |  |- =
+     |  |  |  |- 1
+     |  |  |  `- ;
+     |  |  `- AArrayList
+     |  |     |- AArrayCreate
+     |  |     |  |- int
+     |  |     |  |- [
+     |  |     |  |- ]
+     |  |     |  |- array
+     |  |     |  |- =
+     |  |     |  |- new
+     |  |     |  |- int
+     |  |     |  |- [
+     |  |     |  |- ASide3E1
+     |  |     |  |  `- ASide8E2
+     |  |     |  |     `- ASide3E3
+     |  |     |  |        `- ASide3E4
+     |  |     |  |           `- ASide3E5
+     |  |     |  |              `- 5
+     |  |     |  |- ]
+     |  |     |  `- ;
+     |  |     `- AWhileList
+     |  |        |- AWhileStatement
+     |  |        |  |- while
+     |  |        |  |- (
+     |  |        |  |- ASide3E1
+     |  |        |  |  `- ASide6E2
+     |  |        |  |     |- ASide3E3
+     |  |        |  |     |  `- ASide3E4
+     |  |        |  |     |     `- ASide2E5
+     |  |        |  |     |        `- x
+     |  |        |  |     |- =
+     |  |        |  |     `- ASide3E3
+     |  |        |  |        `- ASide3E4
+     |  |        |  |           `- ASide3E5
+     |  |        |  |              `- 5
+     |  |        |  |- )
+     |  |        |  |- {
+     |  |        |  |- ASecondList
+     |  |        |  |  `- ASide1Varassign
+     |  |        |  |  |  |- x
+     |  |        |  |  |  |- =
+     |  |        |  |  |  |- 1
+     |  |        |  |  |  `- ;
+     |  |        |  |  `- ANothingList
+     |  |        |  `- }
+     |  |        `- AThirdList
+     |  |           |- AMethodCall
+     |  |           |  |- helper
+     |  |           |  |- AParamsActualParams
+     |  |           |  |  |- (
+     |  |           |  |  |- ATwoPartsBooleanExpression
+     |  |           |  |  |  |- ABaseBooleanExpression
+     |  |           |  |  |  |  `- ASide3E1
+     |  |           |  |  |  |     `- ASide5E2
+     |  |           |  |  |  |        |- ASide3E3
+     |  |           |  |  |  |        |  `- ASide3E4
+     |  |           |  |  |  |        |     `- ASide2E5
+     |  |           |  |  |  |        |        `- x
+     |  |           |  |  |  |        |- ==
+     |  |           |  |  |  |        `- ASide3E3
+     |  |           |  |  |  |           `- ASide3E4
+     |  |           |  |  |  |              `- ASide2E5
+     |  |           |  |  |  |                 `- x
+     |  |           |  |  |  |- ,
+     |  |           |  |  |  `- ASide3E1
+     |  |           |  |  |     `- ASide7E2
+     |  |           |  |  |        |- ASide3E3
+     |  |           |  |  |        |  `- ASide3E4
+     |  |           |  |  |        |     `- ASide2E5
+     |  |           |  |  |        |        `- y
+     |  |           |  |  |        |- !=
+     |  |           |  |  |        `- ASide3E3
+     |  |           |  |  |           `- ASide3E4
+     |  |           |  |  |              `- ASide2E5
+     |  |           |  |  |                 `- y
+     |  |           |  |  `- )
+     |  |           |  `- ;
+     |  |           `- AThirdList
+     |  |              `- AMethodCall
+     |  |              |  |- helper2
+     |  |              |  |- ANoParamsActualParams
+     |  |              |  |  |- (
+     |  |              |  |  `- )
+     |  |              |  `- ;
+     |  |              `- ANothingList
+     |  `- }
+     `- AMethodRecurseMethod
+        |- APublicMethodDeclare
+        |  |- public
+        |  |- helper
+        |  |- ANoParamsFormalParams
+        |  |  |- (
+        |  |  `- )
+        |  |- {
+        |  |- ASecondList
+        |  |  |- ASide1Varassign
+        |  |  |  |- x
+        |  |  |  |- =
+        |  |  |  |- 2
+        |  |  |  `- ;
+        |  |  `- AFourthList
+        |  |     |- ASide2IfStatement
+        |  |     |  |- if
+        |  |     |  |- (
+        |  |     |  |- ASide3E1
+        |  |     |  |  `- ASide6E2
+        |  |     |  |     |- ASide3E3
+        |  |     |  |     |  `- ASide3E4
+        |  |     |  |     |     `- ASide2E5
+        |  |     |  |     |        `- x
+        |  |     |  |     |- =
+        |  |     |  |     `- ASide3E3
+        |  |     |  |        `- ASide3E4
+        |  |     |  |           `- ASide3E5
+        |  |     |  |              `- 20
+        |  |     |  |- )
+        |  |     |  |- {
+        |  |     |  |- ASecondList
+        |  |     |  |  `- ASide1Varassign
+        |  |     |  |  |  |- y
+        |  |     |  |  |  |- =
+        |  |     |  |  |  |- 4
+        |  |     |  |  |  `- ;
+        |  |     |  |  `- ANothingList
+        |  |     |  `- }
+        |  |     `- AFourthList
+        |  |        `- ASide1IfStatement
+        |  |        |  |- if
+        |  |        |  |- (
+        |  |        |  |- ASide3E1
+        |  |        |  |  `- ASide6E2
+        |  |        |  |     |- ASide3E3
+        |  |        |  |     |  `- ASide3E4
+        |  |        |  |     |     `- ASide2E5
+        |  |        |  |     |        `- x
+        |  |        |  |     |- =
+        |  |        |  |     `- ASide3E3
+        |  |        |  |        `- ASide3E4
+        |  |        |  |           `- ASide3E5
+        |  |        |  |              `- 5
+        |  |        |  |- )
+        |  |        |  |- {
+        |  |        |  |- ASecondList
+        |  |        |  |  `- ASide1Varassign
+        |  |        |  |  |  |- y
+        |  |        |  |  |  |- =
+        |  |        |  |  |  |- 2
+        |  |        |  |  |  `- ;
+        |  |        |  |  `- ANothingList
+        |  |        |  |- }
+        |  |        |  |- else
+        |  |        |  |- {
+        |  |        |  |- ASecondList
+        |  |        |  |  `- ASide1Varassign
+        |  |        |  |  |  |- y
+        |  |        |  |  |  |- =
+        |  |        |  |  |  |- 10
+        |  |        |  |  |  `- ;
+        |  |        |  |  `- ANothingList
+        |  |        |  `- }
+        |  |        `- ANothingList
+        |  `- }
+        `- AMethodRecurseMethod
+           `- APrivateStaticMethodDeclare
+           |  |- private
+           |  |- static
+           |  |- helper2
+           |  |- ANoParamsFormalParams
+           |  |  |- (
+           |  |  `- )
+           |  |- {
+           |  |- AFourthList
+           |  |  `- ASide2IfStatement
+           |  |  |  |- if
+           |  |  |  |- (
+           |  |  |  |- ASide3E1
+           |  |  |  |  `- ASide2E2
+           |  |  |  |     |- ASide3E3
+           |  |  |  |     |  `- ASide3E4
+           |  |  |  |     |     `- ASide2E5
+           |  |  |  |     |        `- x
+           |  |  |  |     |- >
+           |  |  |  |     `- ASide3E3
+           |  |  |  |        `- ASide3E4
+           |  |  |  |           `- ASide2E5
+           |  |  |  |              `- y
+           |  |  |  |- )
+           |  |  |  `- {
+           |  |  |  |- ANothingList
+           |  |  |  `- }
+           |  |  `- ANothingList
+           |  `- }
+           `- ANothingMethod
+
