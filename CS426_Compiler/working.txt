@@ -1,0 +1,85 @@
+public class working
+{
+	public static void main(String args[])
+	{
+		//
+		/////////////
+		//abc
+		//123
+		//!\$
+		//abc123!\$
+
+		boolean ab = true;
+		boolean b = false;
+
+		boolean b = a && b;
+		b = a || b;
+		b = !a;
+
+		if(a == b){};
+		else(a == b){};
+		while (a == b){};
+
+		int x = 1;
+		int y = 2;
+
+		b = x == y;
+		b = x < y;
+		b = x <= y;
+		b = x > y;
+		b = x >= y;
+
+		int z = x + y;
+		z = x + -y;
+		z = -x + y;
+		z = -x + -y;
+
+		z = x - y;
+		z = x - -y;
+		z = -x - y;
+		z = -x - -y;
+
+		z = x * y;
+		z = x * -y;
+		z = -x * y;
+		z = -x * -y;
+
+		z = x / y;
+		z = x / -y;
+		z = -x / y;
+		z = -x / -y;
+
+		int [] x = new int[10];
+		
+		float f = 20.5;
+		f = .20;
+		f = 20.5e8;
+		f = 20.5e-8;
+		f = .5e8
+		f = .5e-8
+
+		String a = " ";
+		a = "a";
+		a = "aa";
+		a = "1";
+		a = "21";
+		a = "a1a";
+		a = "?.\";
+		a = "a?1";
+		a = " \" "
+		a = " \"\" "
+		a = " \" a1? \" "
+
+		String hi = "Hello";
+		String hi_dr = "Hello Dr.";
+		String hi_dr_carlisle = "Hello Dr. Carlisle";
+		
+	
+	}
+
+	private int test()
+	{
+		returns 5;
+	}
+
+}

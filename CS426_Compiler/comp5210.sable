@@ -1,0 +1,114 @@
+Package comp5210;
+
+Helpers
+    digit = ['0' .. '9'] ;
+    ascii_char = [32 .. 127] ;
+    letter = [['a' .. 'z'] + ['A' .. 'Z']] ;
+	eol = 10|13 ;
+	string_char = [[32 .. 33] + [35 .. 127]]; //contains ascii characters needed for strings (excludes quotes)
+
+Tokens //contains reserved words
+	whitespace = (' '|9|10|13)+;
+	comment = '//' ascii_char* eol;
+	class = 'class';
+	public = 'public';
+	private = 'private';
+	return = 'return';
+	static = 'static';
+	void = 'void';
+	main = 'main';
+	semicolon = ';';
+	comma = ',';
+
+	//if, else, while
+	if = 'if';
+	else = 'else';
+	while = 'while';
+		
+	//Regular expression (int, float, string, variable)
+	int = digit+;
+	float = digit* '.' digit+ ('e' '-'? digit+)?;
+	string = '"' (string_char|'\"')* '"';
+	variable = (letter) (digit|letter|'_'(digit|letter))*;
+
+	//plus, minus, multiply, divide
+	plus = '+';
+	minus = '-';
+	multiply = '*';
+	divide = '/';
+
+	//parens, brackets, curly braces
+	left_parenthesis = '(';
+	right_parenthesis = ')';
+	left_bracket = '[';
+	right_bracket = ']';
+	left_curly_brace = '{';
+	right_curly_brace = '}';
+
+	//and, or, not
+	and = '&&';
+	or = '||';
+	not = '!';
+	
+	//less than, greater than, equal, equivalance
+	less_than = '<';
+	greater_than = '>';
+	less_than_equal = '<=';
+	greater_than_equal = '>=';
+	equivalance = '==';
+	equal = '=';
+	not_equal = '!=';
+	
+	
+IgnoredTokens
+	whitespace, 
+	comment;
+	
+Productions 
+
+	program = main_method method;
+
+	main_method = main left_parenthesis right_parenthesis left_curly_brace list right_curly_brace;
+
+	method = {method_recurse} method_declare method | {nothing};
+
+	list = {first} vardecl list | {second} varassign list | {third} method_call list | {fourth} if_statement list | {while} while_statement list | {array} array_create list | {nothing};
+
+	e1 = {side1} [one]:e2 and [two]:e2 | {side2} [one]:e2 or [two]:e2 | {side3}e2;
+	e2 = {side1} [one]:e3 less_than [two]:e3 | {side2} [one]:e3 greater_than [two]:e3 | {side3} [one]:e3 less_than_equal [two]:e3 | {side4} [one]:e3 greater_than_equal [two]:e3 | {side5} [one]:e3 equivalance [two]:e3 | {side6} [one]:e3 equal [two]:e3 | {side7} [one]:e3 not_equal [two]:e3 | {side8} e3;
+	e3 = {side1} e3 plus e4 | {side2} e3 minus e4 | {side3} e4;
+	e4 = {side1} e4 multiply e5 | {side2} e4 divide e5 | {side3} e5;
+	e5 = {side1} left_parenthesis e1 right_parenthesis | {side2} variable | {side3} int | {side4} float | {side5} variable left_bracket e1 right_bracket;
+
+	vardecl = {side1} [one]:variable [two]:variable semicolon | {side2} [one]:variable [two]:variable equal int semicolon| {side3} [one]:variable [two]:variable equal minus int semicolon| {side5} [one]:variable [two]:variable equal float semicolon| {side6} [one]:variable [two]:variable equal minus float semicolon| {side7} [one]:variable [two]:variable equal string semicolon;
+	
+	varassign = {side1} variable equal int semicolon | {side2} variable equal minus int semicolon | {side3} variable equal float semicolon | {side4} variable equal minus float semicolon | {side5} variable equal string semicolon;
+
+	//method declare
+	//public static (formal paramaters) {}
+	method_declare = {public_static} public static variable formal_params left_curly_brace list right_curly_brace | {private_static} private static variable formal_params left_curly_brace list right_curly_brace | {public} public variable formal_params left_curly_brace list right_curly_brace | {private} private variable formal_params left_curly_brace list right_curly_brace;
+
+	formal_params = {params} left_parenthesis content right_parenthesis | {no_params} left_parenthesis right_parenthesis;
+	content = {two_parts} content comma [one]:variable [two]:variable | {one_part} [one]:variable [two]:variable;
+
+	//helper();
+	method_call = variable actual_params semicolon;
+
+	actual_params = {params} left_parenthesis expression right_parenthesis | {no_params} left_parenthesis right_parenthesis;
+	expression = {two_parts_string} expression comma string | {two_parts_boolean} expression comma e1 | {base_string} string | {base_boolean} e1;
+
+
+	//if statements
+	if_statement = {side1} if left_parenthesis e1 right_parenthesis [if_left_curl]:left_curly_brace [if_list]:list [if_right_curl]:right_curly_brace else [else_left_curl]:left_curly_brace [else_list]:list [else_right_curl]:right_curly_brace | {side2} if left_parenthesis e1 right_parenthesis left_curly_brace list right_curly_brace ;
+
+	//while statements
+	while_statement = while left_parenthesis e1 right_parenthesis left_curly_brace list right_curly_brace;
+
+	//arrays
+	//int[] x = new int [5];
+	array_create = [type]:variable [declare_lb]:left_bracket [declare_rb]:right_bracket [name_of_array]:variable equal [new]:variable [same_type]:variable [create_lb]:left_bracket e1 [create_rb]:right_bracket semicolon;
+
+	//Documentation
+	//Walked through what we spoke about in class about expressions by C1C McGregor
+	//Shown how  to recursively call all created functions of the parser by C1C Hoekstra
+	//Formal and actual paramaters explained by C1C Honeycutt
