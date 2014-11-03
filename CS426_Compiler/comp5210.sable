@@ -108,9 +108,14 @@ Productions
 	//int[] x = new int [5];
 	array_create = [type]:variable [declare_lb]:left_bracket [declare_rb]:right_bracket [name_of_array]:variable equal [new]:variable [same_type]:variable [create_lb]:left_bracket e1 [create_rb]:right_bracket semicolon;
 
-	//Documentation
-	//Walked through what we spoke about in class about expressions by C1C McGregor
-	//Shown how  to recursively call all created functions of the parser by C1C Hoekstra
-	//Formal and actual paramaters explained by C1C Honeycutt
+------------------------------------------------- PEX 3 -------------------------------------------------------------------
 
-	//added test
+	//constants
+	//In outAIntConst check that:
+	//"int" is a data type, X is not already declared, type of e1 is int
+	//const = {int} const_t var var equal e1 semicolon;
+
+	/test
+
+
+
