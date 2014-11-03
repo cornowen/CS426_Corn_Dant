@@ -66,7 +66,7 @@ IgnoredTokens
 	
 Productions 
 
-	program = main_method method;
+	program = method main_method;
 
 	main_method = main left_parenthesis right_parenthesis left_curly_brace list right_curly_brace;
 
@@ -81,8 +81,8 @@ Productions
 	e5 = {side1} left_parenthesis e1 right_parenthesis | {side2} variable | {side3} int | {side4} float | {side5} variable left_bracket e1 right_bracket;
 
 	vardecl = {side1} [one]:variable [two]:variable semicolon | {side2} [one]:variable [two]:variable equal int semicolon| {side3} [one]:variable [two]:variable equal minus int semicolon| {side5} [one]:variable [two]:variable equal float semicolon| {side6} [one]:variable [two]:variable equal minus float semicolon| {side7} [one]:variable [two]:variable equal string semicolon;
-	
-	varassign = {side1} variable equal int semicolon | {side2} variable equal minus int semicolon | {side3} variable equal float semicolon | {side4} variable equal minus float semicolon | {side5} variable equal string semicolon;
+
+	varassign = {side1} variable equal e1 semicolon;
 
 	//method declare
 	//public static (formal paramaters) {}
