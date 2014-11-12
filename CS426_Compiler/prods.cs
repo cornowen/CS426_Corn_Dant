@@ -12,19 +12,19 @@ public abstract class PProgram : Node
 {
 }
 
-public abstract class PMainMethod : Node
-{
-}
-
-public abstract class PMethod : Node
-{
-}
-
 public abstract class PConstants : Node
 {
 }
 
 public abstract class PInitialization : Node
+{
+}
+
+public abstract class PMainMethod : Node
+{
+}
+
+public abstract class PMethods : Node
 {
 }
 
@@ -99,7 +99,6 @@ public abstract class PArrayCreate : Node
 
 public sealed class AProgram : PProgram
 {
-    private PConstants _constants_;
     private PMethod _method_;
     private PMainMethod _main_method_;
 
@@ -108,12 +107,10 @@ public sealed class AProgram : PProgram
     }
 
     public AProgram (
-            PConstants _constants_,
             PMethod _method_,
             PMainMethod _main_method_
     )
     {
-        SetConstants (_constants_);
         SetMethod (_method_);
         SetMainMethod (_main_method_);
     }
@@ -121,7 +118,6 @@ public sealed class AProgram : PProgram
     public override Object Clone()
     {
         return new AProgram (
-            (PConstants)CloneNode (_constants_),
             (PMethod)CloneNode (_method_),
             (PMainMethod)CloneNode (_main_method_)
         );
@@ -132,7 +128,7 @@ public sealed class AProgram : PProgram
         ((Analysis) sw).CaseAProgram(this);
     }
 
-    public PConstants GetConstants ()
+    public PMethod GetMethod ()
     {
         return _constants_;
     }
@@ -156,16 +152,16 @@ public sealed class AProgram : PProgram
 
         _constants_ = node;
     }
-    public PMethod GetMethod ()
+    public PMethods GetMethods ()
     {
-        return _method_;
+        return _methods_;
     }
 
-    public void SetMethod (PMethod node)
+    public void SetMethods (PMethods node)
     {
-        if(_method_ != null)
+        if(_methods_ != null)
         {
-            _method_.Parent(null);
+            _methods_.Parent(null);
         }
 
         if(node != null)
@@ -178,7 +174,7 @@ public sealed class AProgram : PProgram
             node.Parent(this);
         }
 
-        _method_ = node;
+        _methods_ = node;
     }
     public PMainMethod GetMainMethod ()
     {
@@ -208,7 +204,6 @@ public sealed class AProgram : PProgram
     public override string ToString()
     {
         return ""
-            + ToString (_constants_)
             + ToString (_method_)
             + ToString (_main_method_)
         ;
@@ -216,14 +211,14 @@ public sealed class AProgram : PProgram
 
     internal override void RemoveChild(Node child)
     {
-        if ( _constants_ == child )
+        if ( _method_ == child )
         {
             _constants_ = null;
             return;
         }
-        if ( _method_ == child )
+        if ( _methods_ == child )
         {
-            _method_ = null;
+            _methods_ = null;
             return;
         }
         if ( _main_method_ == child )
@@ -235,14 +230,14 @@ public sealed class AProgram : PProgram
 
     internal override void ReplaceChild(Node oldChild, Node newChild)
     {
-        if ( _constants_ == oldChild )
+        if ( _method_ == oldChild )
         {
             SetConstants ((PConstants) newChild);
             return;
         }
-        if ( _method_ == oldChild )
+        if ( _methods_ == oldChild )
         {
-            SetMethod ((PMethod) newChild);
+            SetMethods ((PMethods) newChild);
             return;
         }
         if ( _main_method_ == oldChild )
@@ -253,436 +248,10 @@ public sealed class AProgram : PProgram
     }
 
 }
-public sealed class AMainMethod : PMainMethod
-{
-    private TMain _main_;
-    private TLeftParenthesis _left_parenthesis_;
-    private TRightParenthesis _right_parenthesis_;
-    private TLeftCurlyBrace _left_curly_brace_;
-    private PList _list_;
-    private TRightCurlyBrace _right_curly_brace_;
-
-    public AMainMethod ()
-    {
-    }
-
-    public AMainMethod (
-            TMain _main_,
-            TLeftParenthesis _left_parenthesis_,
-            TRightParenthesis _right_parenthesis_,
-            TLeftCurlyBrace _left_curly_brace_,
-            PList _list_,
-            TRightCurlyBrace _right_curly_brace_
-    )
-    {
-        SetMain (_main_);
-        SetLeftParenthesis (_left_parenthesis_);
-        SetRightParenthesis (_right_parenthesis_);
-        SetLeftCurlyBrace (_left_curly_brace_);
-        SetList (_list_);
-        SetRightCurlyBrace (_right_curly_brace_);
-    }
-
-    public override Object Clone()
-    {
-        return new AMainMethod (
-            (TMain)CloneNode (_main_),
-            (TLeftParenthesis)CloneNode (_left_parenthesis_),
-            (TRightParenthesis)CloneNode (_right_parenthesis_),
-            (TLeftCurlyBrace)CloneNode (_left_curly_brace_),
-            (PList)CloneNode (_list_),
-            (TRightCurlyBrace)CloneNode (_right_curly_brace_)
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseAMainMethod(this);
-    }
-
-    public TMain GetMain ()
-    {
-        return _main_;
-    }
-
-    public void SetMain (TMain node)
-    {
-        if(_main_ != null)
-        {
-            _main_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _main_ = node;
-    }
-    public TLeftParenthesis GetLeftParenthesis ()
-    {
-        return _left_parenthesis_;
-    }
-
-    public void SetLeftParenthesis (TLeftParenthesis node)
-    {
-        if(_left_parenthesis_ != null)
-        {
-            _left_parenthesis_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _left_parenthesis_ = node;
-    }
-    public TRightParenthesis GetRightParenthesis ()
-    {
-        return _right_parenthesis_;
-    }
-
-    public void SetRightParenthesis (TRightParenthesis node)
-    {
-        if(_right_parenthesis_ != null)
-        {
-            _right_parenthesis_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _right_parenthesis_ = node;
-    }
-    public TLeftCurlyBrace GetLeftCurlyBrace ()
-    {
-        return _left_curly_brace_;
-    }
-
-    public void SetLeftCurlyBrace (TLeftCurlyBrace node)
-    {
-        if(_left_curly_brace_ != null)
-        {
-            _left_curly_brace_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _left_curly_brace_ = node;
-    }
-    public PList GetList ()
-    {
-        return _list_;
-    }
-
-    public void SetList (PList node)
-    {
-        if(_list_ != null)
-        {
-            _list_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _list_ = node;
-    }
-    public TRightCurlyBrace GetRightCurlyBrace ()
-    {
-        return _right_curly_brace_;
-    }
-
-    public void SetRightCurlyBrace (TRightCurlyBrace node)
-    {
-        if(_right_curly_brace_ != null)
-        {
-            _right_curly_brace_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _right_curly_brace_ = node;
-    }
-
-    public override string ToString()
-    {
-        return ""
-            + ToString (_main_)
-            + ToString (_left_parenthesis_)
-            + ToString (_right_parenthesis_)
-            + ToString (_left_curly_brace_)
-            + ToString (_list_)
-            + ToString (_right_curly_brace_)
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-        if ( _main_ == child )
-        {
-            _main_ = null;
-            return;
-        }
-        if ( _left_parenthesis_ == child )
-        {
-            _left_parenthesis_ = null;
-            return;
-        }
-        if ( _right_parenthesis_ == child )
-        {
-            _right_parenthesis_ = null;
-            return;
-        }
-        if ( _left_curly_brace_ == child )
-        {
-            _left_curly_brace_ = null;
-            return;
-        }
-        if ( _list_ == child )
-        {
-            _list_ = null;
-            return;
-        }
-        if ( _right_curly_brace_ == child )
-        {
-            _right_curly_brace_ = null;
-            return;
-        }
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-        if ( _main_ == oldChild )
-        {
-            SetMain ((TMain) newChild);
-            return;
-        }
-        if ( _left_parenthesis_ == oldChild )
-        {
-            SetLeftParenthesis ((TLeftParenthesis) newChild);
-            return;
-        }
-        if ( _right_parenthesis_ == oldChild )
-        {
-            SetRightParenthesis ((TRightParenthesis) newChild);
-            return;
-        }
-        if ( _left_curly_brace_ == oldChild )
-        {
-            SetLeftCurlyBrace ((TLeftCurlyBrace) newChild);
-            return;
-        }
-        if ( _list_ == oldChild )
-        {
-            SetList ((PList) newChild);
-            return;
-        }
-        if ( _right_curly_brace_ == oldChild )
-        {
-            SetRightCurlyBrace ((TRightCurlyBrace) newChild);
-            return;
-        }
-    }
-
-}
-public sealed class AMethodRecurseMethod : PMethod
-{
-    private PMethod _method_;
-    private PMethodDeclare _method_declare_;
-
-    public AMethodRecurseMethod ()
-    {
-    }
-
-    public AMethodRecurseMethod (
-            PMethod _method_,
-            PMethodDeclare _method_declare_
-    )
-    {
-        SetMethod (_method_);
-        SetMethodDeclare (_method_declare_);
-    }
-
-    public override Object Clone()
-    {
-        return new AMethodRecurseMethod (
-            (PMethod)CloneNode (_method_),
-            (PMethodDeclare)CloneNode (_method_declare_)
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseAMethodRecurseMethod(this);
-    }
-
-    public PMethod GetMethod ()
-    {
-        return _method_;
-    }
-
-    public void SetMethod (PMethod node)
-    {
-        if(_method_ != null)
-        {
-            _method_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _method_ = node;
-    }
-    public PMethodDeclare GetMethodDeclare ()
-    {
-        return _method_declare_;
-    }
-
-    public void SetMethodDeclare (PMethodDeclare node)
-    {
-        if(_method_declare_ != null)
-        {
-            _method_declare_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _method_declare_ = node;
-    }
-
-    public override string ToString()
-    {
-        return ""
-            + ToString (_method_)
-            + ToString (_method_declare_)
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-        if ( _method_ == child )
-        {
-            _method_ = null;
-            return;
-        }
-        if ( _method_declare_ == child )
-        {
-            _method_declare_ = null;
-            return;
-        }
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-        if ( _method_ == oldChild )
-        {
-            SetMethod ((PMethod) newChild);
-            return;
-        }
-        if ( _method_declare_ == oldChild )
-        {
-            SetMethodDeclare ((PMethodDeclare) newChild);
-            return;
-        }
-    }
-
-}
-public sealed class ANothingMethod : PMethod
-{
-
-
-    public ANothingMethod (
-    )
-    {
-    }
-
-    public override Object Clone()
-    {
-        return new ANothingMethod (
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseANothingMethod(this);
-    }
-
-
-    public override string ToString()
-    {
-        return ""
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-    }
-
-}
 public sealed class AConstantinitConstants : PConstants
 {
-    private TConstant _constant_;
     private PConstants _constants_;
+    private TConstant _constant_;
     private PE1 _one_;
     private PE1 _two_;
     private PInitialization _initialization_;
@@ -693,16 +262,16 @@ public sealed class AConstantinitConstants : PConstants
     }
 
     public AConstantinitConstants (
-            TConstant _constant_,
             PConstants _constants_,
+            TConstant _constant_,
             PE1 _one_,
             PE1 _two_,
             PInitialization _initialization_,
             TSemicolon _semicolon_
     )
     {
-        SetConstant (_constant_);
         SetConstants (_constants_);
+        SetConstant (_constant_);
         SetOne (_one_);
         SetTwo (_two_);
         SetInitialization (_initialization_);
@@ -712,8 +281,8 @@ public sealed class AConstantinitConstants : PConstants
     public override Object Clone()
     {
         return new AConstantinitConstants (
-            (TConstant)CloneNode (_constant_),
             (PConstants)CloneNode (_constants_),
+            (TConstant)CloneNode (_constant_),
             (PE1)CloneNode (_one_),
             (PE1)CloneNode (_two_),
             (PInitialization)CloneNode (_initialization_),
@@ -726,30 +295,6 @@ public sealed class AConstantinitConstants : PConstants
         ((Analysis) sw).CaseAConstantinitConstants(this);
     }
 
-    public TConstant GetConstant ()
-    {
-        return _constant_;
-    }
-
-    public void SetConstant (TConstant node)
-    {
-        if(_constant_ != null)
-        {
-            _constant_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _constant_ = node;
-    }
     public PConstants GetConstants ()
     {
         return _constants_;
@@ -773,6 +318,30 @@ public sealed class AConstantinitConstants : PConstants
         }
 
         _constants_ = node;
+    }
+    public TConstant GetConstant ()
+    {
+        return _constant_;
+    }
+
+    public void SetConstant (TConstant node)
+    {
+        if(_constant_ != null)
+        {
+            _constant_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _constant_ = node;
     }
     public PE1 GetOne ()
     {
@@ -874,8 +443,8 @@ public sealed class AConstantinitConstants : PConstants
     public override string ToString()
     {
         return ""
-            + ToString (_constant_)
             + ToString (_constants_)
+            + ToString (_constant_)
             + ToString (_one_)
             + ToString (_two_)
             + ToString (_initialization_)
@@ -885,14 +454,14 @@ public sealed class AConstantinitConstants : PConstants
 
     internal override void RemoveChild(Node child)
     {
-        if ( _constant_ == child )
-        {
-            _constant_ = null;
-            return;
-        }
         if ( _constants_ == child )
         {
             _constants_ = null;
+            return;
+        }
+        if ( _constant_ == child )
+        {
+            _constant_ = null;
             return;
         }
         if ( _one_ == child )
@@ -919,14 +488,14 @@ public sealed class AConstantinitConstants : PConstants
 
     internal override void ReplaceChild(Node oldChild, Node newChild)
     {
-        if ( _constant_ == oldChild )
-        {
-            SetConstant ((TConstant) newChild);
-            return;
-        }
         if ( _constants_ == oldChild )
         {
             SetConstants ((PConstants) newChild);
+            return;
+        }
+        if ( _constant_ == oldChild )
+        {
+            SetConstant ((TConstant) newChild);
             return;
         }
         if ( _one_ == oldChild )
@@ -990,27 +559,27 @@ public sealed class ANothingConstants : PConstants
 }
 public sealed class AIntizationInitialization : PInitialization
 {
-    private TInit _init_;
-    private TInt _int_;
+    private PMethodDeclare _method_declare_;
+    private PMethod _method_;
 
     public AIntizationInitialization ()
     {
     }
 
-    public AIntizationInitialization (
-            TInit _init_,
-            TInt _int_
+    public AMethodRecurseMethod (
+            PMethodDeclare _method_declare_,
+            PMethod _method_
     )
     {
-        SetInit (_init_);
-        SetInt (_int_);
+        SetMethodDeclare (_method_declare_);
+        SetMethod (_method_);
     }
 
     public override Object Clone()
     {
-        return new AIntizationInitialization (
-            (TInit)CloneNode (_init_),
-            (TInt)CloneNode (_int_)
+        return new AMethodRecurseMethod (
+            (PMethodDeclare)CloneNode (_method_declare_),
+            (PMethod)CloneNode (_method_)
         );
     }
 
@@ -1019,16 +588,16 @@ public sealed class AIntizationInitialization : PInitialization
         ((Analysis) sw).CaseAIntizationInitialization(this);
     }
 
-    public TInit GetInit ()
+    public PMethodDeclare GetMethodDeclare ()
     {
-        return _init_;
+        return _method_declare_;
     }
 
-    public void SetInit (TInit node)
+    public void SetMethodDeclare (PMethodDeclare node)
     {
-        if(_init_ != null)
+        if(_method_declare_ != null)
         {
-            _init_.Parent(null);
+            _method_declare_.Parent(null);
         }
 
         if(node != null)
@@ -1041,18 +610,18 @@ public sealed class AIntizationInitialization : PInitialization
             node.Parent(this);
         }
 
-        _init_ = node;
+        _method_declare_ = node;
     }
-    public TInt GetInt ()
+    public PMethod GetMethod ()
     {
-        return _int_;
+        return _method_;
     }
 
-    public void SetInt (TInt node)
+    public void SetMethod (PMethod node)
     {
-        if(_int_ != null)
+        if(_method_ != null)
         {
-            _int_.Parent(null);
+            _method_.Parent(null);
         }
 
         if(node != null)
@@ -1065,41 +634,41 @@ public sealed class AIntizationInitialization : PInitialization
             node.Parent(this);
         }
 
-        _int_ = node;
+        _method_ = node;
     }
 
     public override string ToString()
     {
         return ""
-            + ToString (_init_)
-            + ToString (_int_)
+            + ToString (_method_declare_)
+            + ToString (_method_)
         ;
     }
 
     internal override void RemoveChild(Node child)
     {
-        if ( _init_ == child )
+        if ( _method_declare_ == child )
         {
-            _init_ = null;
+            _method_declare_ = null;
             return;
         }
-        if ( _int_ == child )
+        if ( _method_ == child )
         {
-            _int_ = null;
+            _method_ = null;
             return;
         }
     }
 
     internal override void ReplaceChild(Node oldChild, Node newChild)
     {
-        if ( _init_ == oldChild )
+        if ( _method_declare_ == oldChild )
         {
-            SetInit ((TInit) newChild);
+            SetMethodDeclare ((PMethodDeclare) newChild);
             return;
         }
-        if ( _int_ == oldChild )
+        if ( _method_ == oldChild )
         {
-            SetInt ((TInt) newChild);
+            SetMethod ((PMethod) newChild);
             return;
         }
     }
@@ -1170,7 +739,7 @@ public sealed class AFloatizationInitialization : PInitialization
         if(_float_ != null)
         {
             _float_.Parent(null);
-        }
+    }
 
         if(node != null)
         {
@@ -1199,7 +768,7 @@ public sealed class AFloatizationInitialization : PInitialization
         {
             _init_ = null;
             return;
-        }
+    }
         if ( _float_ == child )
         {
             _float_ = null;
@@ -1213,12 +782,455 @@ public sealed class AFloatizationInitialization : PInitialization
         {
             SetInit ((TInit) newChild);
             return;
-        }
+    }
         if ( _float_ == oldChild )
         {
             SetFloat ((TFloat) newChild);
             return;
         }
+    }
+
+}
+public sealed class AMainMethod : PMainMethod
+{
+    private PConstants _constants_;
+    private TConstant _constant_;
+    private PE1 _one_;
+    private PE1 _two_;
+    private PInitialization _initialization_;
+
+    public AMainMethod ()
+    {
+    }
+
+    public AConstantinitConstants (
+            PConstants _constants_,
+            TConstant _constant_,
+            PE1 _one_,
+            PE1 _two_,
+            PInitialization _initialization_
+    )
+    {
+        SetConstants (_constants_);
+        SetConstant (_constant_);
+        SetOne (_one_);
+        SetTwo (_two_);
+        SetInitialization (_initialization_);
+    }
+
+    public override Object Clone()
+    {
+        return new AConstantinitConstants (
+            (PConstants)CloneNode (_constants_),
+            (TConstant)CloneNode (_constant_),
+            (PE1)CloneNode (_one_),
+            (PE1)CloneNode (_two_),
+            (PInitialization)CloneNode (_initialization_)
+        );
+    }
+
+    public override void Apply(Switch sw)
+    {
+        ((Analysis) sw).CaseAMainMethod(this);
+    }
+
+    public PConstants GetConstants ()
+    {
+        return _constants_;
+    }
+
+    public void SetConstants (PConstants node)
+    {
+        if(_constants_ != null)
+        {
+            _constants_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _constants_ = node;
+    }
+    public TConstant GetConstant ()
+    {
+        return _constant_;
+    }
+
+    public void SetConstant (TConstant node)
+    {
+        if(_constant_ != null)
+        {
+            _constant_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _constant_ = node;
+    }
+    public TRightParenthesis GetRightParenthesis ()
+    {
+        return _right_parenthesis_;
+    }
+
+    public void SetRightParenthesis (TRightParenthesis node)
+    {
+        if(_right_parenthesis_ != null)
+        {
+            _right_parenthesis_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _right_parenthesis_ = node;
+    }
+    public TLeftCurlyBrace GetLeftCurlyBrace ()
+    {
+        return _left_curly_brace_;
+    }
+
+    public void SetLeftCurlyBrace (TLeftCurlyBrace node)
+    {
+        if(_left_curly_brace_ != null)
+        {
+            _left_curly_brace_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _left_curly_brace_ = node;
+    }
+    public PList GetList ()
+    {
+        return _list_;
+    }
+
+    public void SetList (PList node)
+    {
+        if(_list_ != null)
+        {
+            _list_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _list_ = node;
+    }
+
+    public void SetRightCurlyBrace (TRightCurlyBrace node)
+    {
+        if(_right_curly_brace_ != null)
+        {
+            _right_curly_brace_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _right_curly_brace_ = node;
+    }
+
+    public override string ToString()
+    {
+        return ""
+            + ToString (_constants_)
+            + ToString (_constant_)
+            + ToString (_one_)
+            + ToString (_two_)
+            + ToString (_initialization_)
+        ;
+    }
+
+    internal override void RemoveChild(Node child)
+    {
+        if ( _constants_ == child )
+        {
+            _constants_ = null;
+            return;
+        }
+        if ( _constant_ == child )
+        {
+            _constant_ = null;
+            return;
+        }
+        if ( _right_parenthesis_ == child )
+        {
+            _right_parenthesis_ = null;
+            return;
+        }
+        if ( _left_curly_brace_ == child )
+        {
+            _left_curly_brace_ = null;
+            return;
+        }
+        if ( _list_ == child )
+        {
+            _list_ = null;
+            return;
+        }
+    }
+    }
+
+    internal override void ReplaceChild(Node oldChild, Node newChild)
+    {
+        if ( _constants_ == oldChild )
+        {
+            SetConstants ((PConstants) newChild);
+            return;
+        }
+        if ( _constant_ == oldChild )
+        {
+            SetConstant ((TConstant) newChild);
+            return;
+        }
+        if ( _right_parenthesis_ == oldChild )
+        {
+            SetRightParenthesis ((TRightParenthesis) newChild);
+            return;
+        }
+        if ( _left_curly_brace_ == oldChild )
+        {
+            SetLeftCurlyBrace ((TLeftCurlyBrace) newChild);
+            return;
+        }
+        if ( _list_ == oldChild )
+        {
+            SetList ((PList) newChild);
+            return;
+        }
+    }
+
+}
+public sealed class ANothingConstants : PConstants
+{
+
+
+    public ANothingConstants (
+    )
+    {
+    }
+
+    public override Object Clone()
+    {
+        return new ANothingConstants (
+        );
+    }
+
+    public override void Apply(Switch sw)
+    {
+        ((Analysis) sw).CaseANothingConstants(this);
+    }
+
+
+    public override string ToString()
+    {
+        return ""
+        ;
+    }
+
+    internal override void RemoveChild(Node child)
+    {
+            SetRightCurlyBrace ((TRightCurlyBrace) newChild);
+            return;
+    }
+    }
+
+}
+public sealed class AMethodRecurseMethods : PMethods
+{
+    private PMethodDeclare _method_declare_;
+    private PMethods _methods_;
+
+    public AMethodRecurseMethods ()
+    {
+    }
+
+    public AMethodRecurseMethods (
+            PMethodDeclare _method_declare_,
+            PMethods _methods_
+    )
+    {
+        SetMethodDeclare (_method_declare_);
+        SetMethods (_methods_);
+    }
+
+    public override Object Clone()
+    {
+        return new AMethodRecurseMethods (
+            (PMethodDeclare)CloneNode (_method_declare_),
+            (PMethods)CloneNode (_methods_)
+        );
+    }
+
+    public override void Apply(Switch sw)
+    {
+        ((Analysis) sw).CaseAMethodRecurseMethods(this);
+    }
+
+    public PMethodDeclare GetMethodDeclare ()
+    {
+        return _method_declare_;
+    }
+
+    public void SetMethodDeclare (PMethodDeclare node)
+    {
+        if(_method_declare_ != null)
+        {
+            _method_declare_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _method_declare_ = node;
+    }
+    public PMethods GetMethods ()
+    {
+        return _methods_;
+    }
+
+    public void SetMethods (PMethods node)
+    {
+        if(_methods_ != null)
+        {
+            _methods_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _methods_ = node;
+    }
+
+    public override string ToString()
+    {
+        return ""
+            + ToString (_method_declare_)
+            + ToString (_methods_)
+        ;
+    }
+
+    internal override void RemoveChild(Node child)
+    {
+        if ( _method_declare_ == child )
+        {
+            _method_declare_ = null;
+            return;
+        }
+        if ( _methods_ == child )
+        {
+            _methods_ = null;
+            return;
+        }
+    }
+
+    internal override void ReplaceChild(Node oldChild, Node newChild)
+    {
+        if ( _method_declare_ == oldChild )
+        {
+            SetMethodDeclare ((PMethodDeclare) newChild);
+            return;
+        }
+        if ( _methods_ == oldChild )
+        {
+            SetMethods ((PMethods) newChild);
+            return;
+        }
+    }
+
+}
+public sealed class ANothingMethods : PMethods
+{
+
+
+    public ANothingMethods (
+    )
+    {
+    }
+
+    public override Object Clone()
+    {
+        return new ANothingMethods (
+        );
+    }
+
+    public override void Apply(Switch sw)
+    {
+        ((Analysis) sw).CaseANothingMethods(this);
+        }
+
+
+    public override string ToString()
+    {
+        return ""
+        ;
+    }
+
+    internal override void RemoveChild(Node child)
+    {
+    }
+
+    internal override void ReplaceChild(Node oldChild, Node newChild)
+    {
     }
 
 }
