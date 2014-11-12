@@ -75,5 +75,60 @@ namespace parser
             }
         }
 
+        public override void OutAConstantinitConstants(comp5210.node.AConstantinitConstants node)
+        {
+            string typename = node.GetOne().ToString();
+            string varname = node.GetTwo().ToString();
+            Definition typedefn;
+            // lookup the type
+            if (!stringhash.TryGetValue(typename, out typedefn))
+            {
+                Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
+                    typename + " is not defined.");
+                nodehash.Add(node, typedefn);
+            }
+            // check to make sure what we got back is a type
+            else if (!(typedefn is TypeDefinition))
+            {
+                Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
+                    typename + " is an invalid type.");
+                nodehash.Add(node, typedefn);
+            }
+            else
+            {
+                // add this variable to the hash table
+                // note you need to add checks to make sure this 
+                // variable name isn't already defined.
+                if (!stringhash.TryGetValue(varname, out typedefn))//not in string hash
+                {
+                    //check left and right hand side to see if the types match
+                    Definition rhs, lhs;
+                    nodehash.TryGetValue(node.GetInitialization(), out rhs);
+                    stringhash.TryGetValue(typename, out lhs);
+
+                    if ((lhs as VariableDefinition).vartype != rhs)
+                    {
+                        Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
+                            "types don't match");
+                    }
+                    else
+                    {
+                        VariableDefinition vardefn = new VariableDefinition();
+                        vardefn.name = varname;
+                        vardefn.constant = true;
+                        vardefn.vartype = typedefn as TypeDefinition;
+                        stringhash.Add(vardefn.name, vardefn);
+                    }
+                }
+                else
+                {
+                    // error: varname already defined
+                    Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
+                    varname + " is already defined elsewhere.");
+                    nodehash.Add(node, typedefn);
+                }
+            }
+        }
+
     }
 }

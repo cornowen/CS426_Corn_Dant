@@ -68,15 +68,16 @@ IgnoredTokens
 	
 Productions 
 
-	program = method main_method;
+	program = constants methods main_method;
+
+	constants = {constantinit} constants constant [one]:e1 [two]:e1 initialization semicolon | {nothing} ;
+	initialization = {intization} init int | {floatization} init float ;
 
 	main_method = main left_parenthesis right_parenthesis left_curly_brace list right_curly_brace;
 
-	method = {method_recurse} method_declare method | {nothing};
-
-	constants = {constantinit} constants constant [one]:e1 [two]:e1 initialization | {nothing};
-
-	initialization = {intization} init int | {floatization} init float;
+	methods = {method_recurse} method_declare methods | {nothing};
+	 
+	
 
 	list = {first} vardecl list | {second} varassign list | {third} method_call list | {fourth} if_statement list | {while} while_statement list | {array} array_create list | {nothing};
 

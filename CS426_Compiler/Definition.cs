@@ -28,6 +28,7 @@ namespace parser
     public class VariableDefinition : Definition
     {
         public TypeDefinition vartype;
+        public bool constant;
     }
 
     // subprogram definition
