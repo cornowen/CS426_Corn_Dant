@@ -56,7 +56,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="comp5210.sable" />
     <None Include="compile.bat" />
     <None Include="Doxyfile" />
     <None Include="PARSEDRIVE.bat" />

@@ -1,4 +1,4 @@
-
+final int y := 0;
 
 public helper(){
 }
