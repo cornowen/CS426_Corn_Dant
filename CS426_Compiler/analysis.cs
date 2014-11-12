@@ -16,13 +16,13 @@ public interface Analysis : Switch
 
     void CaseStart(Start node);
     void CaseAProgram(AProgram node);
+    void CaseAMainMethod(AMainMethod node);
+    void CaseAMethodRecurseMethod(AMethodRecurseMethod node);
+    void CaseANothingMethod(ANothingMethod node);
     void CaseAConstantinitConstants(AConstantinitConstants node);
     void CaseANothingConstants(ANothingConstants node);
     void CaseAIntizationInitialization(AIntizationInitialization node);
     void CaseAFloatizationInitialization(AFloatizationInitialization node);
-    void CaseAMainMethod(AMainMethod node);
-    void CaseAMethodRecurseMethods(AMethodRecurseMethods node);
-    void CaseANothingMethods(ANothingMethods node);
     void CaseAFirstList(AFirstList node);
     void CaseASecondList(ASecondList node);
     void CaseAThirdList(AThirdList node);
@@ -189,6 +189,18 @@ public class AnalysisAdapter : Analysis
     {
         DefaultCase(node);
     }
+    public virtual void CaseAMainMethod(AMainMethod node)
+    {
+        DefaultCase(node);
+    }
+    public virtual void CaseAMethodRecurseMethod(AMethodRecurseMethod node)
+    {
+        DefaultCase(node);
+    }
+    public virtual void CaseANothingMethod(ANothingMethod node)
+    {
+        DefaultCase(node);
+    }
     public virtual void CaseAConstantinitConstants(AConstantinitConstants node)
     {
         DefaultCase(node);
@@ -202,18 +214,6 @@ public class AnalysisAdapter : Analysis
         DefaultCase(node);
     }
     public virtual void CaseAFloatizationInitialization(AFloatizationInitialization node)
-    {
-        DefaultCase(node);
-    }
-    public virtual void CaseAMainMethod(AMainMethod node)
-    {
-        DefaultCase(node);
-    }
-    public virtual void CaseAMethodRecurseMethods(AMethodRecurseMethods node)
-    {
-        DefaultCase(node);
-    }
-    public virtual void CaseANothingMethods(ANothingMethods node)
     {
         DefaultCase(node);
     }
@@ -653,11 +653,7 @@ public class DepthFirstAdapter : AnalysisAdapter
         InAProgram(node);
         if(node.GetMethod() != null)
         {
-            node.GetConstants().Apply(this);
-        }
-        if(node.GetMethods() != null)
-        {
-            node.GetMethods().Apply(this);
+            node.GetMethod().Apply(this);
         }
         if(node.GetMainMethod() != null)
         {
@@ -755,13 +751,13 @@ public class DepthFirstAdapter : AnalysisAdapter
     public override void CaseAConstantinitConstants(AConstantinitConstants node)
     {
         InAConstantinitConstants(node);
-        if(node.GetConstant() != null)
-        {
-            node.GetConstant().Apply(this);
-        }
         if(node.GetConstants() != null)
         {
             node.GetConstants().Apply(this);
+        }
+        if(node.GetConstant() != null)
+        {
+            node.GetConstant().Apply(this);
         }
         if(node.GetOne() != null)
         {
@@ -841,83 +837,6 @@ public class DepthFirstAdapter : AnalysisAdapter
             node.GetFloat().Apply(this);
         }
         OutAFloatizationInitialization(node);
-    }
-    public virtual void InAMainMethod(AMainMethod node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutAMainMethod(AMainMethod node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseAMainMethod(AMainMethod node)
-    {
-        InAMainMethod(node);
-        if(node.GetMain() != null)
-        {
-            node.GetMain().Apply(this);
-        }
-        if(node.GetLeftParenthesis() != null)
-        {
-            node.GetLeftParenthesis().Apply(this);
-        }
-        if(node.GetRightParenthesis() != null)
-        {
-            node.GetRightParenthesis().Apply(this);
-        }
-        if(node.GetLeftCurlyBrace() != null)
-        {
-            node.GetLeftCurlyBrace().Apply(this);
-        }
-        if(node.GetList() != null)
-        {
-            node.GetList().Apply(this);
-        }
-        if(node.GetRightCurlyBrace() != null)
-        {
-            node.GetRightCurlyBrace().Apply(this);
-        }
-        OutAMainMethod(node);
-    }
-    public virtual void InAMethodRecurseMethods(AMethodRecurseMethods node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutAMethodRecurseMethods(AMethodRecurseMethods node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseAMethodRecurseMethods(AMethodRecurseMethods node)
-    {
-        InAMethodRecurseMethods(node);
-        if(node.GetMethodDeclare() != null)
-        {
-            node.GetMethodDeclare().Apply(this);
-        }
-        if(node.GetMethods() != null)
-        {
-            node.GetMethods().Apply(this);
-        }
-        OutAMethodRecurseMethods(node);
-    }
-    public virtual void InANothingMethods(ANothingMethods node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutANothingMethods(ANothingMethods node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseANothingMethods(ANothingMethods node)
-    {
-        InANothingMethods(node);
-        OutANothingMethods(node);
     }
     public virtual void InAFirstList(AFirstList node)
     {
@@ -2544,15 +2463,15 @@ public class ReversedDepthFirstAdapter : AnalysisAdapter
         {
             node.GetMainMethod().Apply(this);
         }
-        if(node.GetMethods() != null)
+        if(node.GetMethod() != null)
         {
-            node.GetMethods().Apply(this);
+            node.GetMethod().Apply(this);
         }
         OutAProgram(node);
     }
     public virtual void InAMainMethod(AMainMethod node)
     {
-            node.GetConstants().Apply(this);
+        DefaultIn(node);
     }
 
     public virtual void OutAMainMethod(AMainMethod node)
@@ -2621,6 +2540,12 @@ public class ReversedDepthFirstAdapter : AnalysisAdapter
     {
         DefaultOut(node);
     }
+
+    public override void CaseANothingMethod(ANothingMethod node)
+    {
+        InANothingMethod(node);
+        OutANothingMethod(node);
+    }
     public virtual void InAConstantinitConstants(AConstantinitConstants node)
     {
         DefaultIn(node);
@@ -2650,13 +2575,13 @@ public class ReversedDepthFirstAdapter : AnalysisAdapter
         {
             node.GetOne().Apply(this);
         }
-        if(node.GetConstants() != null)
-        {
-            node.GetConstants().Apply(this);
-        }
         if(node.GetConstant() != null)
         {
             node.GetConstant().Apply(this);
+        }
+        if(node.GetConstants() != null)
+        {
+            node.GetConstants().Apply(this);
         }
         OutAConstantinitConstants(node);
     }
@@ -2720,83 +2645,6 @@ public class ReversedDepthFirstAdapter : AnalysisAdapter
             node.GetInit().Apply(this);
         }
         OutAFloatizationInitialization(node);
-    }
-    public virtual void InAMainMethod(AMainMethod node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutAMainMethod(AMainMethod node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseAMainMethod(AMainMethod node)
-    {
-        InAMainMethod(node);
-        if(node.GetRightCurlyBrace() != null)
-        {
-            node.GetRightCurlyBrace().Apply(this);
-        }
-        if(node.GetList() != null)
-        {
-            node.GetList().Apply(this);
-        }
-        if(node.GetLeftCurlyBrace() != null)
-        {
-            node.GetLeftCurlyBrace().Apply(this);
-        }
-        if(node.GetRightParenthesis() != null)
-        {
-            node.GetRightParenthesis().Apply(this);
-        }
-        if(node.GetLeftParenthesis() != null)
-        {
-            node.GetLeftParenthesis().Apply(this);
-        }
-        if(node.GetMain() != null)
-        {
-            node.GetMain().Apply(this);
-        }
-        OutAMainMethod(node);
-    }
-    public virtual void InAMethodRecurseMethods(AMethodRecurseMethods node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutAMethodRecurseMethods(AMethodRecurseMethods node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseAMethodRecurseMethods(AMethodRecurseMethods node)
-    {
-        InAMethodRecurseMethods(node);
-        if(node.GetMethods() != null)
-        {
-            node.GetMethods().Apply(this);
-        }
-        if(node.GetMethodDeclare() != null)
-        {
-            node.GetMethodDeclare().Apply(this);
-        }
-        OutAMethodRecurseMethods(node);
-    }
-    public virtual void InANothingMethods(ANothingMethods node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutANothingMethods(ANothingMethods node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseANothingMethods(ANothingMethods node)
-    {
-        InANothingMethods(node);
-        OutANothingMethods(node);
     }
     public virtual void InAFirstList(AFirstList node)
     {

@@ -402,7 +402,7 @@ public class Parser
                     case 2:
         {
       ArrayList list = New2();
-      Push(GoTo(1), list);
+      Push(GoTo(2), list);
         }
         break;
                     case 3:
@@ -414,7 +414,7 @@ public class Parser
                     case 4:
         {
       ArrayList list = New4();
-      Push(GoTo(2), list);
+      Push(GoTo(3), list);
         }
         break;
                     case 5:
@@ -785,7 +785,6 @@ public class Parser
     ArrayList New0()
     {
         ArrayList nodeList = new ArrayList();
-        ArrayList nodeArrayList3 = (ArrayList) Pop();
         ArrayList nodeArrayList2 = (ArrayList) Pop();
         ArrayList nodeArrayList1 = (ArrayList) Pop();
         PMethod pmethodNode2 = (PMethod)nodeArrayList1[0];
@@ -848,6 +847,7 @@ public class Parser
     ArrayList New4()
     {
         ArrayList nodeList = new ArrayList();
+        ArrayList nodeArrayList6 = (ArrayList) Pop();
         ArrayList nodeArrayList5 = (ArrayList) Pop();
         ArrayList nodeArrayList4 = (ArrayList) Pop();
         ArrayList nodeArrayList3 = (ArrayList) Pop();
@@ -860,8 +860,8 @@ public class Parser
         PInitialization pinitializationNode6 = (PInitialization)nodeArrayList5[0];
         TSemicolon tsemicolonNode7 = (TSemicolon)nodeArrayList6[0];
         AConstantinitConstants pconstantsNode1 = new AConstantinitConstants (
-              tconstantNode2,
-              pconstantsNode3,
+              pconstantsNode2,
+              tconstantNode3,
               pe1Node4,
               pe1Node5,
               pinitializationNode6,
@@ -870,7 +870,7 @@ public class Parser
         nodeList.Add(pconstantsNode1);
         return nodeList;
     }
-    ArrayList New2()
+    ArrayList New5()
     {
         ArrayList nodeList = new ArrayList();
         ANothingConstants pconstantsNode1 = new ANothingConstants (
@@ -878,7 +878,7 @@ public class Parser
         nodeList.Add(pconstantsNode1);
         return nodeList;
     }
-    ArrayList New3()
+    ArrayList New6()
     {
         ArrayList nodeList = new ArrayList();
         ArrayList nodeArrayList2 = (ArrayList) Pop();
@@ -892,7 +892,7 @@ public class Parser
         nodeList.Add(pinitializationNode1);
         return nodeList;
     }
-    ArrayList New4()
+    ArrayList New7()
     {
         ArrayList nodeList = new ArrayList();
         ArrayList nodeArrayList2 = (ArrayList) Pop();
@@ -904,54 +904,6 @@ public class Parser
               tfloatNode3
         );
         nodeList.Add(pinitializationNode1);
-        return nodeList;
-    }
-    ArrayList New5()
-    {
-        ArrayList nodeList = new ArrayList();
-        ArrayList nodeArrayList6 = (ArrayList) Pop();
-        ArrayList nodeArrayList5 = (ArrayList) Pop();
-        ArrayList nodeArrayList4 = (ArrayList) Pop();
-        ArrayList nodeArrayList3 = (ArrayList) Pop();
-        ArrayList nodeArrayList2 = (ArrayList) Pop();
-        ArrayList nodeArrayList1 = (ArrayList) Pop();
-        TMain tmainNode2 = (TMain)nodeArrayList1[0];
-        TLeftParenthesis tleftparenthesisNode3 = (TLeftParenthesis)nodeArrayList2[0];
-        TRightParenthesis trightparenthesisNode4 = (TRightParenthesis)nodeArrayList3[0];
-        TLeftCurlyBrace tleftcurlybraceNode5 = (TLeftCurlyBrace)nodeArrayList4[0];
-        PList plistNode6 = (PList)nodeArrayList5[0];
-        TRightCurlyBrace trightcurlybraceNode7 = (TRightCurlyBrace)nodeArrayList6[0];
-        AMainMethod pmainmethodNode1 = new AMainMethod (
-              tmainNode2,
-              tleftparenthesisNode3,
-              trightparenthesisNode4,
-              tleftcurlybraceNode5,
-              plistNode6,
-              trightcurlybraceNode7
-        );
-        nodeList.Add(pmainmethodNode1);
-        return nodeList;
-    }
-    ArrayList New6()
-    {
-        ArrayList nodeList = new ArrayList();
-        ArrayList nodeArrayList2 = (ArrayList) Pop();
-        ArrayList nodeArrayList1 = (ArrayList) Pop();
-        PMethodDeclare pmethoddeclareNode2 = (PMethodDeclare)nodeArrayList1[0];
-        PMethods pmethodsNode3 = (PMethods)nodeArrayList2[0];
-        AMethodRecurseMethods pmethodsNode1 = new AMethodRecurseMethods (
-              pmethoddeclareNode2,
-              pmethodsNode3
-        );
-        nodeList.Add(pmethodsNode1);
-        return nodeList;
-    }
-    ArrayList New7()
-    {
-        ArrayList nodeList = new ArrayList();
-        ANothingMethods pmethodsNode1 = new ANothingMethods (
-        );
-        nodeList.Add(pmethodsNode1);
         return nodeList;
     }
     ArrayList New8()
@@ -2380,7 +2332,10 @@ public class Parser
       },
       new int[][] {
         new int[] {-1, 3, 92},
-        new int[] {27, 0, 111},
+        new int[] {12, 0, 65},
+        new int[] {13, 0, 66},
+        new int[] {15, 0, 67},
+        new int[] {22, 0, 68},
       },
       new int[][] {
         new int[] {-1, 3, 93},
@@ -2504,29 +2459,34 @@ public class Parser
         new int[] {-1, 1, 16},
       },
       new int[][] {
-        new int[] {-1, 3, 126},
-        new int[] {26, 0, 136},
+        new int[] {-1, 1, 26},
+        new int[] {20, 0, 100},
+        new int[] {21, 0, 101},
       },
       new int[][] {
-        new int[] {-1, 3, 127},
-        new int[] {26, 0, 137},
+        new int[] {-1, 1, 27},
+        new int[] {20, 0, 100},
+        new int[] {21, 0, 101},
       },
       new int[][] {
-        new int[] {-1, 3, 128},
-        new int[] {7, 0, 138},
+        new int[] {-1, 1, 18},
+        new int[] {18, 0, 91},
+        new int[] {19, 0, 92},
       },
       new int[][] {
-        new int[] {-1, 3, 129},
-        new int[] {7, 0, 139},
+        new int[] {-1, 1, 19},
+        new int[] {18, 0, 91},
+        new int[] {19, 0, 92},
       },
       new int[][] {
-        new int[] {-1, 3, 130},
-        new int[] {7, 0, 140},
+        new int[] {-1, 1, 20},
+        new int[] {18, 0, 91},
+        new int[] {19, 0, 92},
       },
       new int[][] {
-        new int[] {-1, 3, 131},
-        new int[] {12, 0, 141},
-        new int[] {13, 0, 142},
+        new int[] {-1, 1, 21},
+        new int[] {18, 0, 91},
+        new int[] {19, 0, 92},
       },
       new int[][] {
         new int[] {-1, 1, 22},
@@ -2534,14 +2494,17 @@ public class Parser
         new int[] {19, 0, 92},
       },
       new int[][] {
-        new int[] {-1, 1, 53},
+        new int[] {-1, 1, 23},
+        new int[] {18, 0, 91},
+        new int[] {19, 0, 92},
       },
       new int[][] {
-        new int[] {-1, 3, 134},
-        new int[] {36, 0, 145},
+        new int[] {-1, 1, 24},
+        new int[] {18, 0, 91},
+        new int[] {19, 0, 92},
       },
       new int[][] {
-        new int[] {-1, 1, 43},
+        new int[] {-1, 1, 29},
       },
       new int[][] {
         new int[] {-1, 1, 30},
@@ -2562,12 +2525,12 @@ public class Parser
         new int[] {-1, 1, 42},
       },
       new int[][] {
-        new int[] {-1, 3, 141},
-        new int[] {7, 0, 148},
+        new int[] {-1, 3, 131},
+        new int[] {7, 0, 139},
       },
       new int[][] {
-        new int[] {-1, 3, 142},
-        new int[] {7, 0, 149},
+        new int[] {-1, 3, 132},
+        new int[] {7, 0, 140},
       },
       new int[][] {
         new int[] {-1, 1, 55},
@@ -2576,16 +2539,19 @@ public class Parser
         new int[] {-1, 1, 56},
       },
       new int[][] {
-        new int[] {-1, 3, 145},
-        new int[] {15, 0, 150},
+        new int[] {-1, 3, 135},
+        new int[] {15, 0, 141},
       },
       new int[][] {
-        new int[] {-1, 3, 146},
-        new int[] {27, 0, 151},
+        new int[] {-1, 1, 36},
       },
       new int[][] {
-        new int[] {-1, 3, 147},
-        new int[] {27, 0, 152},
+        new int[] {-1, 3, 137},
+        new int[] {27, 0, 142},
+      },
+      new int[][] {
+        new int[] {-1, 3, 138},
+        new int[] {27, 0, 143},
       },
       new int[][] {
         new int[] {-1, 1, 39},
@@ -2594,23 +2560,23 @@ public class Parser
         new int[] {-1, 1, 41},
       },
       new int[][] {
-        new int[] {-1, 3, 150},
-        new int[] {15, 0, 153},
+        new int[] {-1, 3, 141},
+        new int[] {15, 0, 144},
       },
       new int[][] {
         new int[] {-1, 1, 60},
-        new int[] {10, 0, 154},
+        new int[] {10, 0, 145},
       },
       new int[][] {
         new int[] {-1, 1, 61},
       },
       new int[][] {
-        new int[] {-1, 3, 153},
-        new int[] {24, 0, 155},
+        new int[] {-1, 3, 144},
+        new int[] {24, 0, 146},
       },
       new int[][] {
-        new int[] {-1, 3, 154},
-        new int[] {26, 0, 156},
+        new int[] {-1, 3, 145},
+        new int[] {26, 0, 147},
       },
       new int[][] {
         new int[] {-1, 3, 146},
@@ -2626,16 +2592,16 @@ public class Parser
         new int[] {15, 0, 33},
       },
       new int[][] {
-        new int[] {-1, 3, 157},
-        new int[] {25, 0, 159},
+        new int[] {-1, 3, 148},
+        new int[] {25, 0, 150},
       },
       new int[][] {
-        new int[] {-1, 3, 158},
-        new int[] {27, 0, 160},
+        new int[] {-1, 3, 149},
+        new int[] {27, 0, 151},
       },
       new int[][] {
-        new int[] {-1, 3, 159},
-        new int[] {7, 0, 161},
+        new int[] {-1, 3, 150},
+        new int[] {7, 0, 152},
       },
       new int[][] {
         new int[] {-1, 1, 59},
@@ -2763,18 +2729,23 @@ public class Parser
       "expecting: ')'",
       "expecting: ',', ')'",
       "expecting: 'if', 'while', variable, '}'",
-      "expecting: ']'",
-      "expecting: int, float",
-      "expecting: ';'",
-      "expecting: ';', ',', int, float, variable, ':=', '(', ')', ']'",
-      "expecting: ';', ',', int, float, variable, ':=', '+', '-', '(', ')', ']', '&&', '||'",
       "expecting: variable, '(', '[', '='",
       "expecting: '}'",
+      "expecting: int, float, variable, '('",
       "expecting: ';', '='",
       "expecting: int, float, string, variable, '(', ')'",
+      "expecting: ']'",
+      "expecting: ';'",
+      "expecting: ';', ',', '+', '-', '*', '/', ')', ']', '&&', '||', '<', '>', '<=', '>=', '==', '=', '!='",
+      "expecting: ';', ',', '+', '-', '*', '/', ')', '[', ']', '&&', '||', '<', '>', '<=', '>=', '==', '=', '!='",
+      "expecting: ';', ',', ')', ']', '&&', '||'",
+      "expecting: ';', ',', '+', '-', ')', ']', '&&', '||', '<', '>', '<=', '>=', '==', '=', '!='",
       "expecting: int, float, string, '-'",
+      "expecting: int, float",
       "expecting: int, float, string, variable, '('",
       "expecting: '='",
+      "expecting: ';', ',', ')', ']'",
+      "expecting: ';', ',', '+', '-', ')', ']', '&&', '||'",
       "expecting: 'if', 'else', 'while', variable, '}'",
       "expecting: '['",
     };

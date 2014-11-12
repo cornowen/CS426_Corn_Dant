@@ -74,8 +74,8 @@ Productions
 
 	method = {method_recurse} method_declare method | {nothing};
 
-	constants = {constantinit} constants constant [one]:e1 [two]:e1 initialization | {nothing};
-
+	constants = {constantinit} constants constant [one]:e1 [two]:e1 initialization semicolon | {nothing};
+	initialization = {intization} init int | {floatization} init float ;
 
 	list = {first} vardecl list | {second} varassign list | {third} method_call list | {fourth} if_statement list | {while} while_statement list | {array} array_create list | {nothing};
 
