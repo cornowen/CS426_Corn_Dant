@@ -218,7 +218,9 @@ namespace parser
 
         public override void OutASide8E2(comp5210.node.ASide8E2 node)
         {
-            base.OutASide8E2(node);
+            Definition nodetype;
+            nodehash.TryGetValue(node.GetE3(), out nodetype);
+            nodehash.Add(node, nodetype);
         }
 
         public override void OutASide1E3(comp5210.node.ASide1E3 node)
@@ -290,7 +292,9 @@ namespace parser
 
         public override void OutASide3E3(comp5210.node.ASide3E3 node)
         {
-            base.OutASide3E3(node);
+            Definition nodetype;
+            nodehash.TryGetValue(node.GetE4(), out nodetype);
+            nodehash.Add(node, nodetype);
         }
 
         public override void OutASide1E4(comp5210.node.ASide1E4 node)
@@ -305,7 +309,9 @@ namespace parser
 
         public override void OutASide3E4(comp5210.node.ASide3E4 node)
         {
-            base.OutASide3E4(node);
+            Definition nodetype;
+            nodehash.TryGetValue(node.GetE5(), out nodetype);
+            nodehash.Add(node, nodetype);
         }
 
         public override void OutASide1E5(comp5210.node.ASide1E5 node)
@@ -361,7 +367,8 @@ namespace parser
                 // add this variable to the hash table
                 // note you need to add checks to make sure this 
                 // variable name isn't already defined.
-                if (!stringhash.TryGetValue(varname, out typedefn))//not in string hash
+                Definition reallynothingisheresothisisnull;
+                if (!stringhash.TryGetValue(varname, out reallynothingisheresothisisnull))//not in string hash
                 {
                     //add to string hash
                     VariableDefinition vardefn = new VariableDefinition();
@@ -392,14 +399,14 @@ namespace parser
             else
             {
                 Definition rhs;
+                VariableDefinition lhs;
+                lhs = typedefn as VariableDefinition;
+                //stringhash.TryGetValue(node.GetVariable().Text, out lhs);
                 nodehash.TryGetValue(node.GetE1(), out rhs);
-                // you should really get the types of both sides and make sure 
-                // they match
-                // make sure the type of the child is a BasicType, as those
-                // are the only addable things.
-                if (typedefn != rhs)
+                
+                if (lhs.vartype != rhs)
                 {
-                    Console.WriteLine("[" + node.GetPlus().Line + "]: " +
+                    Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
                         " variable type does not match assignment.");
                     nodehash.Add(node, rhs);
                 }

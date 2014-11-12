@@ -80,11 +80,28 @@ Productions
 
 	list = {first} vardecl list | {second} varassign list | {third} method_call list | {fourth} if_statement list | {while} while_statement list | {array} array_create list | {nothing};
 
-	e1 = {side1} [one]:e2 and [two]:e2 | {side2} [one]:e2 or [two]:e2 | {side3}e2;
-	e2 = {side1} [one]:e3 less_than [two]:e3 | {side2} [one]:e3 greater_than [two]:e3 | {side3} [one]:e3 less_than_equal [two]:e3 | {side4} [one]:e3 greater_than_equal [two]:e3 | {side5} [one]:e3 equivalance [two]:e3 | {side6} [one]:e3 equal [two]:e3 | {side7} [one]:e3 not_equal [two]:e3 | {side8} e3;
-	e3 = {side1} e3 plus e4 | {side2} e3 minus e4 | {side3} e4;
-	e4 = {side1} e4 multiply e5 | {side2} e4 divide e5 | {side3} e5;
-	e5 = {side1} left_parenthesis e1 right_parenthesis | {side2} variable | {side3} int | {side4} float | {side5} variable left_bracket e1 right_bracket;
+	e1 = {side1} [one]:e2 and [two]:e2 |
+		 {side2} [one]:e2 or [two]:e2 |
+		 {side3}e2;
+	e2 = {side1} [one]:e3 less_than [two]:e3 |
+		 {side2} [one]:e3 greater_than [two]:e3 |
+		 {side3} [one]:e3 less_than_equal [two]:e3 |
+		 {side4} [one]:e3 greater_than_equal [two]:e3 |
+		 {side5} [one]:e3 equivalance [two]:e3 |
+		 {side6} [one]:e3 equal [two]:e3 |
+		 {side7} [one]:e3 not_equal [two]:e3 |
+		 {side8} e3;
+	e3 = {side1} e3 plus e4 |
+		 {side2} e3 minus e4 | 
+		 {side3} e4;
+	e4 = {side1} e4 multiply e5 |
+		 {side2} e4 divide e5 | 
+		 {side3} e5;
+	e5 = {side1} left_parenthesis e1 right_parenthesis |
+		 {side2} variable | 
+		 {side3} int | 
+		 {side4} float | 
+		 {side5} variable left_bracket e1 right_bracket;
 
 	vardecl = [one]:variable [two]:variable semicolon ;
 
