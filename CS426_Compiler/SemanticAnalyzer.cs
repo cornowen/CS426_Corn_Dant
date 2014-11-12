@@ -28,6 +28,8 @@ namespace parser
             inttype.name = "int";
             BasicType floattype = new BasicType();
             floattype.name = "float";
+            BasicType stringtype = new BasicType();
+            stringtype.name = "String";
             BoolType booltype = new BoolType();
             booltype.name = "bool";
             stringhash.Add(inttype.name,inttype);
@@ -100,8 +102,6 @@ namespace parser
                 }
             }
         }
-
-      
 
         public override void OutAIntizationInitialization(comp5210.node.AIntizationInitialization node)
         {
@@ -340,7 +340,40 @@ namespace parser
 
         public override void OutASide5E5(comp5210.node.ASide5E5 node)
         {
-            base.OutASide5E5(node);
+            string arraytype = node.GetVariable().Text;
+            Definition arraytypedefn;
+            if(!stringhash.TryGetValue(arraytype, out arraytypedefn))
+            {
+                Console.WriteLine("[" + node.GetLeftBracket().Line + "]: " +
+                   arraytype + " is not defined.");
+                nodehash.Add(node, arraytypedefn);
+            }
+            else if (!(arraytypedefn is BasicType))
+            {
+                Console.WriteLine("[" + node.GetLeftBracket().Line + "]: " +
+                    arraytype + " is an invalid type for an array.");
+                nodehash.Add(node, arraytypedefn);
+            }
+            else
+            {
+                Definition brackettypedefn;
+                nodehash.TryGetValue(node.GetE1(), out brackettypedefn);
+                if(brackettypedefn.name != "int")
+                {
+                   Console.WriteLine("[" + node.GetLeftBracket().Line + "]: " +
+                   brackettypedefn + " array parameter must be an int.");
+                    nodehash.Add(node, arraytypedefn);
+                }
+                else
+                {
+                    ArrayType arraydef = new ArrayType();
+                    arraydef.arrtype = brackettypedefn as TypeDefinition;
+                    nodehash.Add(node, arraydef);
+                }
+                
+                
+            }
+            
         }
 
         public override void OutAVardecl(comp5210.node.AVardecl node)
@@ -401,7 +434,6 @@ namespace parser
                 Definition rhs;
                 VariableDefinition lhs;
                 lhs = typedefn as VariableDefinition;
-                //stringhash.TryGetValue(node.GetVariable().Text, out lhs);
                 nodehash.TryGetValue(node.GetE1(), out rhs);
                 
                 if (lhs.vartype != rhs)

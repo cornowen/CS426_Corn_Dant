@@ -78,7 +78,13 @@ Productions
 	constants = {constantinit} constants constant [one]:variable [two]:variable initialization semicolon | {nothing};
 	initialization = {intization} init int | {floatization} init float ;
 
-	list = {first} vardecl list | {second} varassign list | {third} method_call list | {fourth} if_statement list | {while} while_statement list | {array} array_create list | {nothing};
+	list = {first} vardecl list | 
+		   {second} varassign list |
+		   {third} method_call list | 
+		   {fourth} if_statement list | 
+		   {while} while_statement list | 
+		   {array} array_create list | 
+		   {nothing};
 
 	e1 = {side1} [one]:e2 and [two]:e2 |
 		 {side2} [one]:e2 or [two]:e2 |
