@@ -651,6 +651,10 @@ public class DepthFirstAdapter : AnalysisAdapter
     public override void CaseAProgram(AProgram node)
     {
         InAProgram(node);
+        if(node.GetConstants() != null)
+        {
+            node.GetConstants().Apply(this);
+        }
         if(node.GetMethod() != null)
         {
             node.GetMethod().Apply(this);
@@ -713,13 +717,13 @@ public class DepthFirstAdapter : AnalysisAdapter
     public override void CaseAMethodRecurseMethod(AMethodRecurseMethod node)
     {
         InAMethodRecurseMethod(node);
-        if(node.GetMethodDeclare() != null)
-        {
-            node.GetMethodDeclare().Apply(this);
-        }
         if(node.GetMethod() != null)
         {
             node.GetMethod().Apply(this);
+        }
+        if(node.GetMethodDeclare() != null)
+        {
+            node.GetMethodDeclare().Apply(this);
         }
         OutAMethodRecurseMethod(node);
     }
@@ -751,13 +755,13 @@ public class DepthFirstAdapter : AnalysisAdapter
     public override void CaseAConstantinitConstants(AConstantinitConstants node)
     {
         InAConstantinitConstants(node);
-        if(node.GetConstants() != null)
-        {
-            node.GetConstants().Apply(this);
-        }
         if(node.GetConstant() != null)
         {
             node.GetConstant().Apply(this);
+        }
+        if(node.GetConstants() != null)
+        {
+            node.GetConstants().Apply(this);
         }
         if(node.GetOne() != null)
         {
@@ -770,6 +774,10 @@ public class DepthFirstAdapter : AnalysisAdapter
         if(node.GetInitialization() != null)
         {
             node.GetInitialization().Apply(this);
+        }
+        if(node.GetSemicolon() != null)
+        {
+            node.GetSemicolon().Apply(this);
         }
         OutAConstantinitConstants(node);
     }
@@ -2463,6 +2471,10 @@ public class ReversedDepthFirstAdapter : AnalysisAdapter
         {
             node.GetMethod().Apply(this);
         }
+        if(node.GetConstants() != null)
+        {
+            node.GetConstants().Apply(this);
+        }
         OutAProgram(node);
     }
     public virtual void InAMainMethod(AMainMethod node)
@@ -2517,13 +2529,13 @@ public class ReversedDepthFirstAdapter : AnalysisAdapter
     public override void CaseAMethodRecurseMethod(AMethodRecurseMethod node)
     {
         InAMethodRecurseMethod(node);
-        if(node.GetMethod() != null)
-        {
-            node.GetMethod().Apply(this);
-        }
         if(node.GetMethodDeclare() != null)
         {
             node.GetMethodDeclare().Apply(this);
+        }
+        if(node.GetMethod() != null)
+        {
+            node.GetMethod().Apply(this);
         }
         OutAMethodRecurseMethod(node);
     }
@@ -2555,6 +2567,10 @@ public class ReversedDepthFirstAdapter : AnalysisAdapter
     public override void CaseAConstantinitConstants(AConstantinitConstants node)
     {
         InAConstantinitConstants(node);
+        if(node.GetSemicolon() != null)
+        {
+            node.GetSemicolon().Apply(this);
+        }
         if(node.GetInitialization() != null)
         {
             node.GetInitialization().Apply(this);
@@ -2567,13 +2583,13 @@ public class ReversedDepthFirstAdapter : AnalysisAdapter
         {
             node.GetOne().Apply(this);
         }
-        if(node.GetConstant() != null)
-        {
-            node.GetConstant().Apply(this);
-        }
         if(node.GetConstants() != null)
         {
             node.GetConstants().Apply(this);
+        }
+        if(node.GetConstant() != null)
+        {
+            node.GetConstant().Apply(this);
         }
         OutAConstantinitConstants(node);
     }

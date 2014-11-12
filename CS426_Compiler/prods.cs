@@ -99,6 +99,7 @@ public abstract class PArrayCreate : Node
 
 public sealed class AProgram : PProgram
 {
+    private PConstants _constants_;
     private PMethod _method_;
     private PMainMethod _main_method_;
 
@@ -107,10 +108,12 @@ public sealed class AProgram : PProgram
     }
 
     public AProgram (
+            PConstants _constants_,
             PMethod _method_,
             PMainMethod _main_method_
     )
     {
+        SetConstants (_constants_);
         SetMethod (_method_);
         SetMainMethod (_main_method_);
     }
@@ -118,6 +121,7 @@ public sealed class AProgram : PProgram
     public override Object Clone()
     {
         return new AProgram (
+            (PConstants)CloneNode (_constants_),
             (PMethod)CloneNode (_method_),
             (PMainMethod)CloneNode (_main_method_)
         );
@@ -128,6 +132,30 @@ public sealed class AProgram : PProgram
         ((Analysis) sw).CaseAProgram(this);
     }
 
+    public PConstants GetConstants ()
+    {
+        return _constants_;
+    }
+
+    public void SetConstants (PConstants node)
+    {
+        if(_constants_ != null)
+        {
+            _constants_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _constants_ = node;
+    }
     public PMethod GetMethod ()
     {
         return _method_;
@@ -180,6 +208,7 @@ public sealed class AProgram : PProgram
     public override string ToString()
     {
         return ""
+            + ToString (_constants_)
             + ToString (_method_)
             + ToString (_main_method_)
         ;
@@ -187,6 +216,11 @@ public sealed class AProgram : PProgram
 
     internal override void RemoveChild(Node child)
     {
+        if ( _constants_ == child )
+        {
+            _constants_ = null;
+            return;
+        }
         if ( _method_ == child )
         {
             _method_ = null;
@@ -201,6 +235,11 @@ public sealed class AProgram : PProgram
 
     internal override void ReplaceChild(Node oldChild, Node newChild)
     {
+        if ( _constants_ == oldChild )
+        {
+            SetConstants ((PConstants) newChild);
+            return;
+        }
         if ( _method_ == oldChild )
         {
             SetMethod ((PMethod) newChild);
@@ -489,27 +528,27 @@ public sealed class AMainMethod : PMainMethod
 }
 public sealed class AMethodRecurseMethod : PMethod
 {
-    private PMethodDeclare _method_declare_;
     private PMethod _method_;
+    private PMethodDeclare _method_declare_;
 
     public AMethodRecurseMethod ()
     {
     }
 
     public AMethodRecurseMethod (
-            PMethodDeclare _method_declare_,
-            PMethod _method_
+            PMethod _method_,
+            PMethodDeclare _method_declare_
     )
     {
-        SetMethodDeclare (_method_declare_);
         SetMethod (_method_);
+        SetMethodDeclare (_method_declare_);
     }
 
     public override Object Clone()
     {
         return new AMethodRecurseMethod (
-            (PMethodDeclare)CloneNode (_method_declare_),
-            (PMethod)CloneNode (_method_)
+            (PMethod)CloneNode (_method_),
+            (PMethodDeclare)CloneNode (_method_declare_)
         );
     }
 
@@ -518,30 +557,6 @@ public sealed class AMethodRecurseMethod : PMethod
         ((Analysis) sw).CaseAMethodRecurseMethod(this);
     }
 
-    public PMethodDeclare GetMethodDeclare ()
-    {
-        return _method_declare_;
-    }
-
-    public void SetMethodDeclare (PMethodDeclare node)
-    {
-        if(_method_declare_ != null)
-        {
-            _method_declare_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _method_declare_ = node;
-    }
     public PMethod GetMethod ()
     {
         return _method_;
@@ -566,39 +581,63 @@ public sealed class AMethodRecurseMethod : PMethod
 
         _method_ = node;
     }
+    public PMethodDeclare GetMethodDeclare ()
+    {
+        return _method_declare_;
+    }
+
+    public void SetMethodDeclare (PMethodDeclare node)
+    {
+        if(_method_declare_ != null)
+        {
+            _method_declare_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _method_declare_ = node;
+    }
 
     public override string ToString()
     {
         return ""
-            + ToString (_method_declare_)
             + ToString (_method_)
+            + ToString (_method_declare_)
         ;
     }
 
     internal override void RemoveChild(Node child)
     {
-        if ( _method_declare_ == child )
-        {
-            _method_declare_ = null;
-            return;
-        }
         if ( _method_ == child )
         {
             _method_ = null;
+            return;
+        }
+        if ( _method_declare_ == child )
+        {
+            _method_declare_ = null;
             return;
         }
     }
 
     internal override void ReplaceChild(Node oldChild, Node newChild)
     {
-        if ( _method_declare_ == oldChild )
-        {
-            SetMethodDeclare ((PMethodDeclare) newChild);
-            return;
-        }
         if ( _method_ == oldChild )
         {
             SetMethod ((PMethod) newChild);
+            return;
+        }
+        if ( _method_declare_ == oldChild )
+        {
+            SetMethodDeclare ((PMethodDeclare) newChild);
             return;
         }
     }
@@ -642,39 +681,43 @@ public sealed class ANothingMethod : PMethod
 }
 public sealed class AConstantinitConstants : PConstants
 {
-    private PConstants _constants_;
     private TConstant _constant_;
+    private PConstants _constants_;
     private PE1 _one_;
     private PE1 _two_;
     private PInitialization _initialization_;
+    private TSemicolon _semicolon_;
 
     public AConstantinitConstants ()
     {
     }
 
     public AConstantinitConstants (
-            PConstants _constants_,
             TConstant _constant_,
+            PConstants _constants_,
             PE1 _one_,
             PE1 _two_,
-            PInitialization _initialization_
+            PInitialization _initialization_,
+            TSemicolon _semicolon_
     )
     {
-        SetConstants (_constants_);
         SetConstant (_constant_);
+        SetConstants (_constants_);
         SetOne (_one_);
         SetTwo (_two_);
         SetInitialization (_initialization_);
+        SetSemicolon (_semicolon_);
     }
 
     public override Object Clone()
     {
         return new AConstantinitConstants (
-            (PConstants)CloneNode (_constants_),
             (TConstant)CloneNode (_constant_),
+            (PConstants)CloneNode (_constants_),
             (PE1)CloneNode (_one_),
             (PE1)CloneNode (_two_),
-            (PInitialization)CloneNode (_initialization_)
+            (PInitialization)CloneNode (_initialization_),
+            (TSemicolon)CloneNode (_semicolon_)
         );
     }
 
@@ -683,30 +726,6 @@ public sealed class AConstantinitConstants : PConstants
         ((Analysis) sw).CaseAConstantinitConstants(this);
     }
 
-    public PConstants GetConstants ()
-    {
-        return _constants_;
-    }
-
-    public void SetConstants (PConstants node)
-    {
-        if(_constants_ != null)
-        {
-            _constants_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _constants_ = node;
-    }
     public TConstant GetConstant ()
     {
         return _constant_;
@@ -730,6 +749,30 @@ public sealed class AConstantinitConstants : PConstants
         }
 
         _constant_ = node;
+    }
+    public PConstants GetConstants ()
+    {
+        return _constants_;
+    }
+
+    public void SetConstants (PConstants node)
+    {
+        if(_constants_ != null)
+        {
+            _constants_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _constants_ = node;
     }
     public PE1 GetOne ()
     {
@@ -803,28 +846,53 @@ public sealed class AConstantinitConstants : PConstants
 
         _initialization_ = node;
     }
+    public TSemicolon GetSemicolon ()
+    {
+        return _semicolon_;
+    }
+
+    public void SetSemicolon (TSemicolon node)
+    {
+        if(_semicolon_ != null)
+        {
+            _semicolon_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _semicolon_ = node;
+    }
 
     public override string ToString()
     {
         return ""
-            + ToString (_constants_)
             + ToString (_constant_)
+            + ToString (_constants_)
             + ToString (_one_)
             + ToString (_two_)
             + ToString (_initialization_)
+            + ToString (_semicolon_)
         ;
     }
 
     internal override void RemoveChild(Node child)
     {
-        if ( _constants_ == child )
-        {
-            _constants_ = null;
-            return;
-        }
         if ( _constant_ == child )
         {
             _constant_ = null;
+            return;
+        }
+        if ( _constants_ == child )
+        {
+            _constants_ = null;
             return;
         }
         if ( _one_ == child )
@@ -842,18 +910,23 @@ public sealed class AConstantinitConstants : PConstants
             _initialization_ = null;
             return;
         }
+        if ( _semicolon_ == child )
+        {
+            _semicolon_ = null;
+            return;
+        }
     }
 
     internal override void ReplaceChild(Node oldChild, Node newChild)
     {
-        if ( _constants_ == oldChild )
-        {
-            SetConstants ((PConstants) newChild);
-            return;
-        }
         if ( _constant_ == oldChild )
         {
             SetConstant ((TConstant) newChild);
+            return;
+        }
+        if ( _constants_ == oldChild )
+        {
+            SetConstants ((PConstants) newChild);
             return;
         }
         if ( _one_ == oldChild )
@@ -869,6 +942,11 @@ public sealed class AConstantinitConstants : PConstants
         if ( _initialization_ == oldChild )
         {
             SetInitialization ((PInitialization) newChild);
+            return;
+        }
+        if ( _semicolon_ == oldChild )
+        {
+            SetSemicolon ((TSemicolon) newChild);
             return;
         }
     }
