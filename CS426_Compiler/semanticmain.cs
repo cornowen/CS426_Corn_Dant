@@ -50,13 +50,14 @@ class TextPrinter : ReversedDepthFirstAdapter {
 
   public override void OutStart (Start node)
   {
-    Console.Write (TreeColor() + "\n" + output.Substring(3) + "\n" + ResetColor());
+    //Console.Write (TreeColor() + "\n" + output.Substring(3) + "\n" + ResetColor());
+      Console.Write("program complete\n");
   }
 
   public override void DefaultIn (Node node)
   {
     if ( last )
-        indentchar.Push('`');
+       indentchar.Push('`');
     else
         indentchar.Push('|');
 
@@ -66,6 +67,7 @@ class TextPrinter : ReversedDepthFirstAdapter {
 
   public override void DefaultOut (Node node)
   {
+      output = "program complete";
     indent = indent.Substring(0, indent.Length - 3);
     indent = indent.Substring(0, indent.Length - 1) + indentchar.Peek();
     indentchar.Pop();
@@ -76,10 +78,10 @@ class TextPrinter : ReversedDepthFirstAdapter {
 
   public override void DefaultCase (Node node)
   {
+      
     if ( last ) indent = indent.Substring(0, indent.Length - 1) + "`";
 
-    output = indent + "- " + SetColor(style.NORMAL, fg_color.FG_RED, bg_color.BG_BLACK) +
-        ((Token)node).Text + TreeColor() + "\n" + output;
+    output = indent + "- " + SetColor(style.NORMAL, fg_color.FG_RED, bg_color.BG_BLACK) + ((Token)node).Text + TreeColor() + "\n" + output;
 
     indent = indent.Substring(0, indent.Length - 1) + "|";
 
@@ -88,7 +90,7 @@ class TextPrinter : ReversedDepthFirstAdapter {
 
   string SetColor (style style, fg_color fgColor, bg_color bgColor)
   {
-    if ( color )
+   if ( color )
         return (char)codes.ESC + "[" + (int)style + ";" + (int)fgColor + "m";
 
     return "";
@@ -123,17 +125,22 @@ class TextPrinter : ReversedDepthFirstAdapter {
   bool color = false;
 }
 
-class semanticmain
+class jDant_Parser
 {
   public static void Main(String[] args)
   {
-      TextReader tr = new StreamReader(args[0]);
-    Lexer l = new Lexer(tr);
-    Parser p = new Parser (l);
+    Lexer l = new Lexer(new System.IO.StreamReader(args[0]));
+    Parser p = new Parser(l);
     Start s = p.Parse ();
 
-    parser.SemanticAnalyzer sa = new parser.SemanticAnalyzer ();
+    parser.SemanticAnalyzer sa = new parser.SemanticAnalyzer();
 
     s.Apply(sa);
+
+    TextPrinter printer = new TextPrinter ();
+    if ( args.Length > 0 && args[0] == "-ansi" )
+        printer.SetColor(true);
+
+    s.Apply(printer);
   }
 }
