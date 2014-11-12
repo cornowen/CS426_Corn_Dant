@@ -86,9 +86,9 @@ Productions
 	e4 = {side1} e4 multiply e5 | {side2} e4 divide e5 | {side3} e5;
 	e5 = {side1} left_parenthesis e1 right_parenthesis | {side2} variable | {side3} int | {side4} float | {side5} variable left_bracket e1 right_bracket;
 
-	vardecl = {side1} [one]:variable [two]:variable semicolon | {side2} [one]:variable [two]:variable equal int semicolon| {side3} [one]:variable [two]:variable equal minus int semicolon| {side5} [one]:variable [two]:variable equal float semicolon| {side6} [one]:variable [two]:variable equal minus float semicolon| {side7} [one]:variable [two]:variable equal string semicolon;
+	vardecl = [one]:variable [two]:variable semicolon ;
 
-	varassign = {side1} variable equal e1 semicolon;
+	varassign = variable equal e1 semicolon;
 
 	//method declare
 	//public static (formal paramaters) {}

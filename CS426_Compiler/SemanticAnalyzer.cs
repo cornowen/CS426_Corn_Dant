@@ -101,47 +101,7 @@ namespace parser
             }
         }
 
-        public override void OutASide1Vardecl(comp5210.node.ASide1Vardecl node)
-        {
-            string typename = node.GetOne().Text;
-            string varname = node.GetTwo().Text;
-            Definition typedefn;
-            // lookup the type
-            if (!stringhash.TryGetValue(typename, out typedefn))
-            {
-                Console.WriteLine("[" + node.GetOne().Line + "]: " +
-                    typename + " is not defined.");
-                nodehash.Add(node, typedefn);
-            }
-            // check to make sure what we got back is a type
-            else if (!(typedefn is TypeDefinition))
-            {
-                Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
-                    typename + " is an invalid type.");
-                nodehash.Add(node, typedefn);
-            }
-            else
-            {
-                // add this variable to the hash table
-                // note you need to add checks to make sure this 
-                // variable name isn't already defined.
-                if (!stringhash.TryGetValue(varname, out typedefn))//not in string hash
-                {
-                    //add to string hash
-                    VariableDefinition vardefn = new VariableDefinition();
-                    vardefn.name = varname;
-                    vardefn.vartype = typedefn as TypeDefinition;
-                    stringhash.Add(vardefn.name, vardefn);
-                }
-                else 
-                { 
-                    // error: varname already defined
-                    Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
-                    varname + " is already defined elsewhere.");
-                    nodehash.Add(node, typedefn);
-                }
-            }
-        }
+      
 
         public override void OutAIntizationInitialization(comp5210.node.AIntizationInitialization node)
         {
@@ -152,7 +112,9 @@ namespace parser
 
         public override void OutAFloatizationInitialization(comp5210.node.AFloatizationInitialization node)
         {
-            
+            Definition floatdef;
+            stringhash.TryGetValue("float", out floatdef);
+            nodehash.Add(node, floatdef);
         }
 
         public override void OutAFirstList(comp5210.node.AFirstList node)
@@ -197,7 +159,9 @@ namespace parser
 
         public override void OutASide3E1(comp5210.node.ASide3E1 node)
         {
-           
+            Definition nodetype;
+            nodehash.TryGetValue(node.GetE2(), out nodetype);
+            nodehash.Add(node, nodetype);
         }
 
         //      public override void OutASide1E2(comp5210.node.ASide1E2 node)
@@ -363,10 +327,88 @@ namespace parser
 
         public override void OutASide4E5(comp5210.node.ASide4E5 node)
         {
-            base.OutASide4E5(node);
+            Definition floatdef;
+            stringhash.TryGetValue("float", out floatdef);
+            nodehash.Add(node, floatdef);
         }
 
+        public override void OutASide5E5(comp5210.node.ASide5E5 node)
+        {
+            base.OutASide5E5(node);
+        }
 
+        public override void OutAVardecl(comp5210.node.AVardecl node)
+        {
+            string typename = node.GetOne().Text;
+            string varname = node.GetTwo().Text;
+            Definition typedefn;
+            // lookup the type
+            if (!stringhash.TryGetValue(typename, out typedefn))
+            {
+                Console.WriteLine("[" + node.GetOne().Line + "]: " +
+                    typename + " is not defined.");
+                nodehash.Add(node, typedefn);
+            }
+            // check to make sure what we got back is a type
+            else if (!(typedefn is TypeDefinition))
+            {
+                Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
+                    typename + " is an invalid type.");
+                nodehash.Add(node, typedefn);
+            }
+            else
+            {
+                // add this variable to the hash table
+                // note you need to add checks to make sure this 
+                // variable name isn't already defined.
+                if (!stringhash.TryGetValue(varname, out typedefn))//not in string hash
+                {
+                    //add to string hash
+                    VariableDefinition vardefn = new VariableDefinition();
+                    vardefn.name = varname;
+                    vardefn.vartype = typedefn as TypeDefinition;
+                    stringhash.Add(vardefn.name, vardefn);
+                }
+                else
+                {
+                    // error: varname already defined
+                    Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
+                    varname + " is already defined elsewhere.");
+                    nodehash.Add(node, typedefn);
+                }
+            }
+        }
+
+        public override void OutAVarassign(comp5210.node.AVarassign node)
+        {
+            string varname = node.GetVariable().Text;
+            Definition typedefn;
+            if (!stringhash.TryGetValue(varname, out typedefn))
+            {
+                Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
+                   varname + " variable is not declared.");
+                nodehash.Add(node, typedefn);
+            }
+            else
+            {
+                Definition rhs;
+                nodehash.TryGetValue(node.GetE1(), out rhs);
+                // you should really get the types of both sides and make sure 
+                // they match
+                // make sure the type of the child is a BasicType, as those
+                // are the only addable things.
+                if (typedefn != rhs)
+                {
+                    Console.WriteLine("[" + node.GetPlus().Line + "]: " +
+                        " variable type does not match assignment.");
+                    nodehash.Add(node, rhs);
+                }
+                else
+                {
+                    nodehash.Add(node, rhs);
+                }
+            }
+        }
 
  
 
