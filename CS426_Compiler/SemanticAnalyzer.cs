@@ -34,36 +34,7 @@ namespace parser
         }
 
         //outASide1Vardecl
-        public override void OutASide1Vardecl(comp5210.node.ASide1Vardecl node)
-        {
-            string typename = node.GetTypename().Text;
-            string varname = node.GetVarname().Text;
-            Definition typedefn;
-            // lookup the type
-            if (!stringhash.TryGetValue(typename, out typedefn))
-            {
-                Console.WriteLine("[" + node.GetTypename().Line + "]: " +
-                    typename + " is not defined.");
-
-                nodehash.Add(node, typedefn); //adds the type to the node hash even if not found
-            }
-            // check to make sure what we got back is a type
-            else if (!(typedefn is TypeDefinition))
-            {
-                Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
-                    typename + " is an invalid type.");
-            }
-            else
-            {
-                // add this variable to the hash table
-                // note you need to add checks to make sure this 
-                // variable name isn't already defined.
-                VariableDefinition vardefn = new VariableDefinition();
-                vardefn.name = varname;
-                vardefn.vartype = typedefn as TypeDefinition;
-                stringhash.Add(vardefn.name, vardefn);
-            }
-        }
+        
 
     }
 }

@@ -55,10 +55,6 @@ public interface Analysis : Switch
     void CaseASide6Vardecl(ASide6Vardecl node);
     void CaseASide7Vardecl(ASide7Vardecl node);
     void CaseASide1Varassign(ASide1Varassign node);
-    void CaseASide2Varassign(ASide2Varassign node);
-    void CaseASide3Varassign(ASide3Varassign node);
-    void CaseASide4Varassign(ASide4Varassign node);
-    void CaseASide5Varassign(ASide5Varassign node);
     void CaseAPublicStaticMethodDeclare(APublicStaticMethodDeclare node);
     void CaseAPrivateStaticMethodDeclare(APrivateStaticMethodDeclare node);
     void CaseAPublicMethodDeclare(APublicMethodDeclare node);
@@ -340,22 +336,6 @@ public class AnalysisAdapter : Analysis
         DefaultCase(node);
     }
     public virtual void CaseASide1Varassign(ASide1Varassign node)
-    {
-        DefaultCase(node);
-    }
-    public virtual void CaseASide2Varassign(ASide2Varassign node)
-    {
-        DefaultCase(node);
-    }
-    public virtual void CaseASide3Varassign(ASide3Varassign node)
-    {
-        DefaultCase(node);
-    }
-    public virtual void CaseASide4Varassign(ASide4Varassign node)
-    {
-        DefaultCase(node);
-    }
-    public virtual void CaseASide5Varassign(ASide5Varassign node)
     {
         DefaultCase(node);
     }
@@ -641,13 +621,13 @@ public class DepthFirstAdapter : AnalysisAdapter
     public override void CaseAProgram(AProgram node)
     {
         InAProgram(node);
-        if(node.GetMainMethod() != null)
-        {
-            node.GetMainMethod().Apply(this);
-        }
         if(node.GetMethod() != null)
         {
             node.GetMethod().Apply(this);
+        }
+        if(node.GetMainMethod() != null)
+        {
+            node.GetMainMethod().Apply(this);
         }
         OutAProgram(node);
     }
@@ -1654,147 +1634,15 @@ public class DepthFirstAdapter : AnalysisAdapter
         {
             node.GetEqual().Apply(this);
         }
-        if(node.GetInt() != null)
+        if(node.GetE1() != null)
         {
-            node.GetInt().Apply(this);
+            node.GetE1().Apply(this);
         }
         if(node.GetSemicolon() != null)
         {
             node.GetSemicolon().Apply(this);
         }
         OutASide1Varassign(node);
-    }
-    public virtual void InASide2Varassign(ASide2Varassign node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutASide2Varassign(ASide2Varassign node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseASide2Varassign(ASide2Varassign node)
-    {
-        InASide2Varassign(node);
-        if(node.GetVariable() != null)
-        {
-            node.GetVariable().Apply(this);
-        }
-        if(node.GetEqual() != null)
-        {
-            node.GetEqual().Apply(this);
-        }
-        if(node.GetMinus() != null)
-        {
-            node.GetMinus().Apply(this);
-        }
-        if(node.GetInt() != null)
-        {
-            node.GetInt().Apply(this);
-        }
-        if(node.GetSemicolon() != null)
-        {
-            node.GetSemicolon().Apply(this);
-        }
-        OutASide2Varassign(node);
-    }
-    public virtual void InASide3Varassign(ASide3Varassign node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutASide3Varassign(ASide3Varassign node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseASide3Varassign(ASide3Varassign node)
-    {
-        InASide3Varassign(node);
-        if(node.GetVariable() != null)
-        {
-            node.GetVariable().Apply(this);
-        }
-        if(node.GetEqual() != null)
-        {
-            node.GetEqual().Apply(this);
-        }
-        if(node.GetFloat() != null)
-        {
-            node.GetFloat().Apply(this);
-        }
-        if(node.GetSemicolon() != null)
-        {
-            node.GetSemicolon().Apply(this);
-        }
-        OutASide3Varassign(node);
-    }
-    public virtual void InASide4Varassign(ASide4Varassign node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutASide4Varassign(ASide4Varassign node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseASide4Varassign(ASide4Varassign node)
-    {
-        InASide4Varassign(node);
-        if(node.GetVariable() != null)
-        {
-            node.GetVariable().Apply(this);
-        }
-        if(node.GetEqual() != null)
-        {
-            node.GetEqual().Apply(this);
-        }
-        if(node.GetMinus() != null)
-        {
-            node.GetMinus().Apply(this);
-        }
-        if(node.GetFloat() != null)
-        {
-            node.GetFloat().Apply(this);
-        }
-        if(node.GetSemicolon() != null)
-        {
-            node.GetSemicolon().Apply(this);
-        }
-        OutASide4Varassign(node);
-    }
-    public virtual void InASide5Varassign(ASide5Varassign node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutASide5Varassign(ASide5Varassign node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseASide5Varassign(ASide5Varassign node)
-    {
-        InASide5Varassign(node);
-        if(node.GetVariable() != null)
-        {
-            node.GetVariable().Apply(this);
-        }
-        if(node.GetEqual() != null)
-        {
-            node.GetEqual().Apply(this);
-        }
-        if(node.GetString() != null)
-        {
-            node.GetString().Apply(this);
-        }
-        if(node.GetSemicolon() != null)
-        {
-            node.GetSemicolon().Apply(this);
-        }
-        OutASide5Varassign(node);
     }
     public virtual void InAPublicStaticMethodDeclare(APublicStaticMethodDeclare node)
     {
@@ -2481,13 +2329,13 @@ public class ReversedDepthFirstAdapter : AnalysisAdapter
     public override void CaseAProgram(AProgram node)
     {
         InAProgram(node);
-        if(node.GetMethod() != null)
-        {
-            node.GetMethod().Apply(this);
-        }
         if(node.GetMainMethod() != null)
         {
             node.GetMainMethod().Apply(this);
+        }
+        if(node.GetMethod() != null)
+        {
+            node.GetMethod().Apply(this);
         }
         OutAProgram(node);
     }
@@ -3490,9 +3338,9 @@ public class ReversedDepthFirstAdapter : AnalysisAdapter
         {
             node.GetSemicolon().Apply(this);
         }
-        if(node.GetInt() != null)
+        if(node.GetE1() != null)
         {
-            node.GetInt().Apply(this);
+            node.GetE1().Apply(this);
         }
         if(node.GetEqual() != null)
         {
@@ -3503,138 +3351,6 @@ public class ReversedDepthFirstAdapter : AnalysisAdapter
             node.GetVariable().Apply(this);
         }
         OutASide1Varassign(node);
-    }
-    public virtual void InASide2Varassign(ASide2Varassign node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutASide2Varassign(ASide2Varassign node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseASide2Varassign(ASide2Varassign node)
-    {
-        InASide2Varassign(node);
-        if(node.GetSemicolon() != null)
-        {
-            node.GetSemicolon().Apply(this);
-        }
-        if(node.GetInt() != null)
-        {
-            node.GetInt().Apply(this);
-        }
-        if(node.GetMinus() != null)
-        {
-            node.GetMinus().Apply(this);
-        }
-        if(node.GetEqual() != null)
-        {
-            node.GetEqual().Apply(this);
-        }
-        if(node.GetVariable() != null)
-        {
-            node.GetVariable().Apply(this);
-        }
-        OutASide2Varassign(node);
-    }
-    public virtual void InASide3Varassign(ASide3Varassign node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutASide3Varassign(ASide3Varassign node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseASide3Varassign(ASide3Varassign node)
-    {
-        InASide3Varassign(node);
-        if(node.GetSemicolon() != null)
-        {
-            node.GetSemicolon().Apply(this);
-        }
-        if(node.GetFloat() != null)
-        {
-            node.GetFloat().Apply(this);
-        }
-        if(node.GetEqual() != null)
-        {
-            node.GetEqual().Apply(this);
-        }
-        if(node.GetVariable() != null)
-        {
-            node.GetVariable().Apply(this);
-        }
-        OutASide3Varassign(node);
-    }
-    public virtual void InASide4Varassign(ASide4Varassign node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutASide4Varassign(ASide4Varassign node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseASide4Varassign(ASide4Varassign node)
-    {
-        InASide4Varassign(node);
-        if(node.GetSemicolon() != null)
-        {
-            node.GetSemicolon().Apply(this);
-        }
-        if(node.GetFloat() != null)
-        {
-            node.GetFloat().Apply(this);
-        }
-        if(node.GetMinus() != null)
-        {
-            node.GetMinus().Apply(this);
-        }
-        if(node.GetEqual() != null)
-        {
-            node.GetEqual().Apply(this);
-        }
-        if(node.GetVariable() != null)
-        {
-            node.GetVariable().Apply(this);
-        }
-        OutASide4Varassign(node);
-    }
-    public virtual void InASide5Varassign(ASide5Varassign node)
-    {
-        DefaultIn(node);
-    }
-
-    public virtual void OutASide5Varassign(ASide5Varassign node)
-    {
-        DefaultOut(node);
-    }
-
-    public override void CaseASide5Varassign(ASide5Varassign node)
-    {
-        InASide5Varassign(node);
-        if(node.GetSemicolon() != null)
-        {
-            node.GetSemicolon().Apply(this);
-        }
-        if(node.GetString() != null)
-        {
-            node.GetString().Apply(this);
-        }
-        if(node.GetEqual() != null)
-        {
-            node.GetEqual().Apply(this);
-        }
-        if(node.GetVariable() != null)
-        {
-            node.GetVariable().Apply(this);
-        }
-        OutASide5Varassign(node);
     }
     public virtual void InAPublicStaticMethodDeclare(APublicStaticMethodDeclare node)
     {

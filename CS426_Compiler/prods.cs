@@ -91,27 +91,27 @@ public abstract class PArrayCreate : Node
 
 public sealed class AProgram : PProgram
 {
-    private PMainMethod _main_method_;
     private PMethod _method_;
+    private PMainMethod _main_method_;
 
     public AProgram ()
     {
     }
 
     public AProgram (
-            PMainMethod _main_method_,
-            PMethod _method_
+            PMethod _method_,
+            PMainMethod _main_method_
     )
     {
-        SetMainMethod (_main_method_);
         SetMethod (_method_);
+        SetMainMethod (_main_method_);
     }
 
     public override Object Clone()
     {
         return new AProgram (
-            (PMainMethod)CloneNode (_main_method_),
-            (PMethod)CloneNode (_method_)
+            (PMethod)CloneNode (_method_),
+            (PMainMethod)CloneNode (_main_method_)
         );
     }
 
@@ -120,30 +120,6 @@ public sealed class AProgram : PProgram
         ((Analysis) sw).CaseAProgram(this);
     }
 
-    public PMainMethod GetMainMethod ()
-    {
-        return _main_method_;
-    }
-
-    public void SetMainMethod (PMainMethod node)
-    {
-        if(_main_method_ != null)
-        {
-            _main_method_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _main_method_ = node;
-    }
     public PMethod GetMethod ()
     {
         return _method_;
@@ -168,39 +144,63 @@ public sealed class AProgram : PProgram
 
         _method_ = node;
     }
+    public PMainMethod GetMainMethod ()
+    {
+        return _main_method_;
+    }
+
+    public void SetMainMethod (PMainMethod node)
+    {
+        if(_main_method_ != null)
+        {
+            _main_method_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _main_method_ = node;
+    }
 
     public override string ToString()
     {
         return ""
-            + ToString (_main_method_)
             + ToString (_method_)
+            + ToString (_main_method_)
         ;
     }
 
     internal override void RemoveChild(Node child)
     {
-        if ( _main_method_ == child )
-        {
-            _main_method_ = null;
-            return;
-        }
         if ( _method_ == child )
         {
             _method_ = null;
+            return;
+        }
+        if ( _main_method_ == child )
+        {
+            _main_method_ = null;
             return;
         }
     }
 
     internal override void ReplaceChild(Node oldChild, Node newChild)
     {
-        if ( _main_method_ == oldChild )
-        {
-            SetMainMethod ((PMainMethod) newChild);
-            return;
-        }
         if ( _method_ == oldChild )
         {
             SetMethod ((PMethod) newChild);
+            return;
+        }
+        if ( _main_method_ == oldChild )
+        {
+            SetMainMethod ((PMainMethod) newChild);
             return;
         }
     }
@@ -5703,7 +5703,7 @@ public sealed class ASide1Varassign : PVarassign
 {
     private TVariable _variable_;
     private TEqual _equal_;
-    private TInt _int_;
+    private PE1 _e1_;
     private TSemicolon _semicolon_;
 
     public ASide1Varassign ()
@@ -5713,13 +5713,13 @@ public sealed class ASide1Varassign : PVarassign
     public ASide1Varassign (
             TVariable _variable_,
             TEqual _equal_,
-            TInt _int_,
+            PE1 _e1_,
             TSemicolon _semicolon_
     )
     {
         SetVariable (_variable_);
         SetEqual (_equal_);
-        SetInt (_int_);
+        SetE1 (_e1_);
         SetSemicolon (_semicolon_);
     }
 
@@ -5728,7 +5728,7 @@ public sealed class ASide1Varassign : PVarassign
         return new ASide1Varassign (
             (TVariable)CloneNode (_variable_),
             (TEqual)CloneNode (_equal_),
-            (TInt)CloneNode (_int_),
+            (PE1)CloneNode (_e1_),
             (TSemicolon)CloneNode (_semicolon_)
         );
     }
@@ -5786,16 +5786,16 @@ public sealed class ASide1Varassign : PVarassign
 
         _equal_ = node;
     }
-    public TInt GetInt ()
+    public PE1 GetE1 ()
     {
-        return _int_;
+        return _e1_;
     }
 
-    public void SetInt (TInt node)
+    public void SetE1 (PE1 node)
     {
-        if(_int_ != null)
+        if(_e1_ != null)
         {
-            _int_.Parent(null);
+            _e1_.Parent(null);
         }
 
         if(node != null)
@@ -5808,7 +5808,7 @@ public sealed class ASide1Varassign : PVarassign
             node.Parent(this);
         }
 
-        _int_ = node;
+        _e1_ = node;
     }
     public TSemicolon GetSemicolon ()
     {
@@ -5840,7 +5840,7 @@ public sealed class ASide1Varassign : PVarassign
         return ""
             + ToString (_variable_)
             + ToString (_equal_)
-            + ToString (_int_)
+            + ToString (_e1_)
             + ToString (_semicolon_)
         ;
     }
@@ -5857,9 +5857,9 @@ public sealed class ASide1Varassign : PVarassign
             _equal_ = null;
             return;
         }
-        if ( _int_ == child )
+        if ( _e1_ == child )
         {
-            _int_ = null;
+            _e1_ = null;
             return;
         }
         if ( _semicolon_ == child )
@@ -5881,867 +5881,9 @@ public sealed class ASide1Varassign : PVarassign
             SetEqual ((TEqual) newChild);
             return;
         }
-        if ( _int_ == oldChild )
+        if ( _e1_ == oldChild )
         {
-            SetInt ((TInt) newChild);
-            return;
-        }
-        if ( _semicolon_ == oldChild )
-        {
-            SetSemicolon ((TSemicolon) newChild);
-            return;
-        }
-    }
-
-}
-public sealed class ASide2Varassign : PVarassign
-{
-    private TVariable _variable_;
-    private TEqual _equal_;
-    private TMinus _minus_;
-    private TInt _int_;
-    private TSemicolon _semicolon_;
-
-    public ASide2Varassign ()
-    {
-    }
-
-    public ASide2Varassign (
-            TVariable _variable_,
-            TEqual _equal_,
-            TMinus _minus_,
-            TInt _int_,
-            TSemicolon _semicolon_
-    )
-    {
-        SetVariable (_variable_);
-        SetEqual (_equal_);
-        SetMinus (_minus_);
-        SetInt (_int_);
-        SetSemicolon (_semicolon_);
-    }
-
-    public override Object Clone()
-    {
-        return new ASide2Varassign (
-            (TVariable)CloneNode (_variable_),
-            (TEqual)CloneNode (_equal_),
-            (TMinus)CloneNode (_minus_),
-            (TInt)CloneNode (_int_),
-            (TSemicolon)CloneNode (_semicolon_)
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseASide2Varassign(this);
-    }
-
-    public TVariable GetVariable ()
-    {
-        return _variable_;
-    }
-
-    public void SetVariable (TVariable node)
-    {
-        if(_variable_ != null)
-        {
-            _variable_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _variable_ = node;
-    }
-    public TEqual GetEqual ()
-    {
-        return _equal_;
-    }
-
-    public void SetEqual (TEqual node)
-    {
-        if(_equal_ != null)
-        {
-            _equal_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _equal_ = node;
-    }
-    public TMinus GetMinus ()
-    {
-        return _minus_;
-    }
-
-    public void SetMinus (TMinus node)
-    {
-        if(_minus_ != null)
-        {
-            _minus_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _minus_ = node;
-    }
-    public TInt GetInt ()
-    {
-        return _int_;
-    }
-
-    public void SetInt (TInt node)
-    {
-        if(_int_ != null)
-        {
-            _int_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _int_ = node;
-    }
-    public TSemicolon GetSemicolon ()
-    {
-        return _semicolon_;
-    }
-
-    public void SetSemicolon (TSemicolon node)
-    {
-        if(_semicolon_ != null)
-        {
-            _semicolon_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _semicolon_ = node;
-    }
-
-    public override string ToString()
-    {
-        return ""
-            + ToString (_variable_)
-            + ToString (_equal_)
-            + ToString (_minus_)
-            + ToString (_int_)
-            + ToString (_semicolon_)
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-        if ( _variable_ == child )
-        {
-            _variable_ = null;
-            return;
-        }
-        if ( _equal_ == child )
-        {
-            _equal_ = null;
-            return;
-        }
-        if ( _minus_ == child )
-        {
-            _minus_ = null;
-            return;
-        }
-        if ( _int_ == child )
-        {
-            _int_ = null;
-            return;
-        }
-        if ( _semicolon_ == child )
-        {
-            _semicolon_ = null;
-            return;
-        }
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-        if ( _variable_ == oldChild )
-        {
-            SetVariable ((TVariable) newChild);
-            return;
-        }
-        if ( _equal_ == oldChild )
-        {
-            SetEqual ((TEqual) newChild);
-            return;
-        }
-        if ( _minus_ == oldChild )
-        {
-            SetMinus ((TMinus) newChild);
-            return;
-        }
-        if ( _int_ == oldChild )
-        {
-            SetInt ((TInt) newChild);
-            return;
-        }
-        if ( _semicolon_ == oldChild )
-        {
-            SetSemicolon ((TSemicolon) newChild);
-            return;
-        }
-    }
-
-}
-public sealed class ASide3Varassign : PVarassign
-{
-    private TVariable _variable_;
-    private TEqual _equal_;
-    private TFloat _float_;
-    private TSemicolon _semicolon_;
-
-    public ASide3Varassign ()
-    {
-    }
-
-    public ASide3Varassign (
-            TVariable _variable_,
-            TEqual _equal_,
-            TFloat _float_,
-            TSemicolon _semicolon_
-    )
-    {
-        SetVariable (_variable_);
-        SetEqual (_equal_);
-        SetFloat (_float_);
-        SetSemicolon (_semicolon_);
-    }
-
-    public override Object Clone()
-    {
-        return new ASide3Varassign (
-            (TVariable)CloneNode (_variable_),
-            (TEqual)CloneNode (_equal_),
-            (TFloat)CloneNode (_float_),
-            (TSemicolon)CloneNode (_semicolon_)
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseASide3Varassign(this);
-    }
-
-    public TVariable GetVariable ()
-    {
-        return _variable_;
-    }
-
-    public void SetVariable (TVariable node)
-    {
-        if(_variable_ != null)
-        {
-            _variable_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _variable_ = node;
-    }
-    public TEqual GetEqual ()
-    {
-        return _equal_;
-    }
-
-    public void SetEqual (TEqual node)
-    {
-        if(_equal_ != null)
-        {
-            _equal_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _equal_ = node;
-    }
-    public TFloat GetFloat ()
-    {
-        return _float_;
-    }
-
-    public void SetFloat (TFloat node)
-    {
-        if(_float_ != null)
-        {
-            _float_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _float_ = node;
-    }
-    public TSemicolon GetSemicolon ()
-    {
-        return _semicolon_;
-    }
-
-    public void SetSemicolon (TSemicolon node)
-    {
-        if(_semicolon_ != null)
-        {
-            _semicolon_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _semicolon_ = node;
-    }
-
-    public override string ToString()
-    {
-        return ""
-            + ToString (_variable_)
-            + ToString (_equal_)
-            + ToString (_float_)
-            + ToString (_semicolon_)
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-        if ( _variable_ == child )
-        {
-            _variable_ = null;
-            return;
-        }
-        if ( _equal_ == child )
-        {
-            _equal_ = null;
-            return;
-        }
-        if ( _float_ == child )
-        {
-            _float_ = null;
-            return;
-        }
-        if ( _semicolon_ == child )
-        {
-            _semicolon_ = null;
-            return;
-        }
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-        if ( _variable_ == oldChild )
-        {
-            SetVariable ((TVariable) newChild);
-            return;
-        }
-        if ( _equal_ == oldChild )
-        {
-            SetEqual ((TEqual) newChild);
-            return;
-        }
-        if ( _float_ == oldChild )
-        {
-            SetFloat ((TFloat) newChild);
-            return;
-        }
-        if ( _semicolon_ == oldChild )
-        {
-            SetSemicolon ((TSemicolon) newChild);
-            return;
-        }
-    }
-
-}
-public sealed class ASide4Varassign : PVarassign
-{
-    private TVariable _variable_;
-    private TEqual _equal_;
-    private TMinus _minus_;
-    private TFloat _float_;
-    private TSemicolon _semicolon_;
-
-    public ASide4Varassign ()
-    {
-    }
-
-    public ASide4Varassign (
-            TVariable _variable_,
-            TEqual _equal_,
-            TMinus _minus_,
-            TFloat _float_,
-            TSemicolon _semicolon_
-    )
-    {
-        SetVariable (_variable_);
-        SetEqual (_equal_);
-        SetMinus (_minus_);
-        SetFloat (_float_);
-        SetSemicolon (_semicolon_);
-    }
-
-    public override Object Clone()
-    {
-        return new ASide4Varassign (
-            (TVariable)CloneNode (_variable_),
-            (TEqual)CloneNode (_equal_),
-            (TMinus)CloneNode (_minus_),
-            (TFloat)CloneNode (_float_),
-            (TSemicolon)CloneNode (_semicolon_)
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseASide4Varassign(this);
-    }
-
-    public TVariable GetVariable ()
-    {
-        return _variable_;
-    }
-
-    public void SetVariable (TVariable node)
-    {
-        if(_variable_ != null)
-        {
-            _variable_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _variable_ = node;
-    }
-    public TEqual GetEqual ()
-    {
-        return _equal_;
-    }
-
-    public void SetEqual (TEqual node)
-    {
-        if(_equal_ != null)
-        {
-            _equal_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _equal_ = node;
-    }
-    public TMinus GetMinus ()
-    {
-        return _minus_;
-    }
-
-    public void SetMinus (TMinus node)
-    {
-        if(_minus_ != null)
-        {
-            _minus_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _minus_ = node;
-    }
-    public TFloat GetFloat ()
-    {
-        return _float_;
-    }
-
-    public void SetFloat (TFloat node)
-    {
-        if(_float_ != null)
-        {
-            _float_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _float_ = node;
-    }
-    public TSemicolon GetSemicolon ()
-    {
-        return _semicolon_;
-    }
-
-    public void SetSemicolon (TSemicolon node)
-    {
-        if(_semicolon_ != null)
-        {
-            _semicolon_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _semicolon_ = node;
-    }
-
-    public override string ToString()
-    {
-        return ""
-            + ToString (_variable_)
-            + ToString (_equal_)
-            + ToString (_minus_)
-            + ToString (_float_)
-            + ToString (_semicolon_)
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-        if ( _variable_ == child )
-        {
-            _variable_ = null;
-            return;
-        }
-        if ( _equal_ == child )
-        {
-            _equal_ = null;
-            return;
-        }
-        if ( _minus_ == child )
-        {
-            _minus_ = null;
-            return;
-        }
-        if ( _float_ == child )
-        {
-            _float_ = null;
-            return;
-        }
-        if ( _semicolon_ == child )
-        {
-            _semicolon_ = null;
-            return;
-        }
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-        if ( _variable_ == oldChild )
-        {
-            SetVariable ((TVariable) newChild);
-            return;
-        }
-        if ( _equal_ == oldChild )
-        {
-            SetEqual ((TEqual) newChild);
-            return;
-        }
-        if ( _minus_ == oldChild )
-        {
-            SetMinus ((TMinus) newChild);
-            return;
-        }
-        if ( _float_ == oldChild )
-        {
-            SetFloat ((TFloat) newChild);
-            return;
-        }
-        if ( _semicolon_ == oldChild )
-        {
-            SetSemicolon ((TSemicolon) newChild);
-            return;
-        }
-    }
-
-}
-public sealed class ASide5Varassign : PVarassign
-{
-    private TVariable _variable_;
-    private TEqual _equal_;
-    private TString _string_;
-    private TSemicolon _semicolon_;
-
-    public ASide5Varassign ()
-    {
-    }
-
-    public ASide5Varassign (
-            TVariable _variable_,
-            TEqual _equal_,
-            TString _string_,
-            TSemicolon _semicolon_
-    )
-    {
-        SetVariable (_variable_);
-        SetEqual (_equal_);
-        SetString (_string_);
-        SetSemicolon (_semicolon_);
-    }
-
-    public override Object Clone()
-    {
-        return new ASide5Varassign (
-            (TVariable)CloneNode (_variable_),
-            (TEqual)CloneNode (_equal_),
-            (TString)CloneNode (_string_),
-            (TSemicolon)CloneNode (_semicolon_)
-        );
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseASide5Varassign(this);
-    }
-
-    public TVariable GetVariable ()
-    {
-        return _variable_;
-    }
-
-    public void SetVariable (TVariable node)
-    {
-        if(_variable_ != null)
-        {
-            _variable_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _variable_ = node;
-    }
-    public TEqual GetEqual ()
-    {
-        return _equal_;
-    }
-
-    public void SetEqual (TEqual node)
-    {
-        if(_equal_ != null)
-        {
-            _equal_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _equal_ = node;
-    }
-    public TString GetString ()
-    {
-        return _string_;
-    }
-
-    public void SetString (TString node)
-    {
-        if(_string_ != null)
-        {
-            _string_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _string_ = node;
-    }
-    public TSemicolon GetSemicolon ()
-    {
-        return _semicolon_;
-    }
-
-    public void SetSemicolon (TSemicolon node)
-    {
-        if(_semicolon_ != null)
-        {
-            _semicolon_.Parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.Parent() != null)
-            {
-                node.Parent().RemoveChild(node);
-            }
-
-            node.Parent(this);
-        }
-
-        _semicolon_ = node;
-    }
-
-    public override string ToString()
-    {
-        return ""
-            + ToString (_variable_)
-            + ToString (_equal_)
-            + ToString (_string_)
-            + ToString (_semicolon_)
-        ;
-    }
-
-    internal override void RemoveChild(Node child)
-    {
-        if ( _variable_ == child )
-        {
-            _variable_ = null;
-            return;
-        }
-        if ( _equal_ == child )
-        {
-            _equal_ = null;
-            return;
-        }
-        if ( _string_ == child )
-        {
-            _string_ = null;
-            return;
-        }
-        if ( _semicolon_ == child )
-        {
-            _semicolon_ = null;
-            return;
-        }
-    }
-
-    internal override void ReplaceChild(Node oldChild, Node newChild)
-    {
-        if ( _variable_ == oldChild )
-        {
-            SetVariable ((TVariable) newChild);
-            return;
-        }
-        if ( _equal_ == oldChild )
-        {
-            SetEqual ((TEqual) newChild);
-            return;
-        }
-        if ( _string_ == oldChild )
-        {
-            SetString ((TString) newChild);
+            SetE1 ((PE1) newChild);
             return;
         }
         if ( _semicolon_ == oldChild )
