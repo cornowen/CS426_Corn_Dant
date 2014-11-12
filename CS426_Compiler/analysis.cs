@@ -19,6 +19,10 @@ public interface Analysis : Switch
     void CaseAMainMethod(AMainMethod node);
     void CaseAMethodRecurseMethod(AMethodRecurseMethod node);
     void CaseANothingMethod(ANothingMethod node);
+    void CaseAConstantinitConstants(AConstantinitConstants node);
+    void CaseANothingConstants(ANothingConstants node);
+    void CaseAIntizationInitialization(AIntizationInitialization node);
+    void CaseAFloatizationInitialization(AFloatizationInitialization node);
     void CaseAFirstList(AFirstList node);
     void CaseASecondList(ASecondList node);
     void CaseAThirdList(AThirdList node);
@@ -93,6 +97,8 @@ public interface Analysis : Switch
     void CaseTFloat(TFloat node);
     void CaseTString(TString node);
     void CaseTVariable(TVariable node);
+    void CaseTConstant(TConstant node);
+    void CaseTInit(TInit node);
     void CaseTPlus(TPlus node);
     void CaseTMinus(TMinus node);
     void CaseTMultiply(TMultiply node);
@@ -192,6 +198,22 @@ public class AnalysisAdapter : Analysis
         DefaultCase(node);
     }
     public virtual void CaseANothingMethod(ANothingMethod node)
+    {
+        DefaultCase(node);
+    }
+    public virtual void CaseAConstantinitConstants(AConstantinitConstants node)
+    {
+        DefaultCase(node);
+    }
+    public virtual void CaseANothingConstants(ANothingConstants node)
+    {
+        DefaultCase(node);
+    }
+    public virtual void CaseAIntizationInitialization(AIntizationInitialization node)
+    {
+        DefaultCase(node);
+    }
+    public virtual void CaseAFloatizationInitialization(AFloatizationInitialization node)
     {
         DefaultCase(node);
     }
@@ -488,6 +510,14 @@ public class AnalysisAdapter : Analysis
     {
         DefaultCase(node);
     }
+    public virtual void CaseTConstant(TConstant node)
+    {
+        DefaultCase(node);
+    }
+    public virtual void CaseTInit(TInit node)
+    {
+        DefaultCase(node);
+    }
     public virtual void CaseTPlus(TPlus node)
     {
         DefaultCase(node);
@@ -707,6 +737,102 @@ public class DepthFirstAdapter : AnalysisAdapter
     {
         InANothingMethod(node);
         OutANothingMethod(node);
+    }
+    public virtual void InAConstantinitConstants(AConstantinitConstants node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutAConstantinitConstants(AConstantinitConstants node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseAConstantinitConstants(AConstantinitConstants node)
+    {
+        InAConstantinitConstants(node);
+        if(node.GetConstants() != null)
+        {
+            node.GetConstants().Apply(this);
+        }
+        if(node.GetConstant() != null)
+        {
+            node.GetConstant().Apply(this);
+        }
+        if(node.GetOne() != null)
+        {
+            node.GetOne().Apply(this);
+        }
+        if(node.GetTwo() != null)
+        {
+            node.GetTwo().Apply(this);
+        }
+        if(node.GetInitialization() != null)
+        {
+            node.GetInitialization().Apply(this);
+        }
+        OutAConstantinitConstants(node);
+    }
+    public virtual void InANothingConstants(ANothingConstants node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutANothingConstants(ANothingConstants node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseANothingConstants(ANothingConstants node)
+    {
+        InANothingConstants(node);
+        OutANothingConstants(node);
+    }
+    public virtual void InAIntizationInitialization(AIntizationInitialization node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutAIntizationInitialization(AIntizationInitialization node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseAIntizationInitialization(AIntizationInitialization node)
+    {
+        InAIntizationInitialization(node);
+        if(node.GetInit() != null)
+        {
+            node.GetInit().Apply(this);
+        }
+        if(node.GetInt() != null)
+        {
+            node.GetInt().Apply(this);
+        }
+        OutAIntizationInitialization(node);
+    }
+    public virtual void InAFloatizationInitialization(AFloatizationInitialization node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutAFloatizationInitialization(AFloatizationInitialization node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseAFloatizationInitialization(AFloatizationInitialization node)
+    {
+        InAFloatizationInitialization(node);
+        if(node.GetInit() != null)
+        {
+            node.GetInit().Apply(this);
+        }
+        if(node.GetFloat() != null)
+        {
+            node.GetFloat().Apply(this);
+        }
+        OutAFloatizationInitialization(node);
     }
     public virtual void InAFirstList(AFirstList node)
     {
@@ -2415,6 +2541,102 @@ public class ReversedDepthFirstAdapter : AnalysisAdapter
     {
         InANothingMethod(node);
         OutANothingMethod(node);
+    }
+    public virtual void InAConstantinitConstants(AConstantinitConstants node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutAConstantinitConstants(AConstantinitConstants node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseAConstantinitConstants(AConstantinitConstants node)
+    {
+        InAConstantinitConstants(node);
+        if(node.GetInitialization() != null)
+        {
+            node.GetInitialization().Apply(this);
+        }
+        if(node.GetTwo() != null)
+        {
+            node.GetTwo().Apply(this);
+        }
+        if(node.GetOne() != null)
+        {
+            node.GetOne().Apply(this);
+        }
+        if(node.GetConstant() != null)
+        {
+            node.GetConstant().Apply(this);
+        }
+        if(node.GetConstants() != null)
+        {
+            node.GetConstants().Apply(this);
+        }
+        OutAConstantinitConstants(node);
+    }
+    public virtual void InANothingConstants(ANothingConstants node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutANothingConstants(ANothingConstants node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseANothingConstants(ANothingConstants node)
+    {
+        InANothingConstants(node);
+        OutANothingConstants(node);
+    }
+    public virtual void InAIntizationInitialization(AIntizationInitialization node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutAIntizationInitialization(AIntizationInitialization node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseAIntizationInitialization(AIntizationInitialization node)
+    {
+        InAIntizationInitialization(node);
+        if(node.GetInt() != null)
+        {
+            node.GetInt().Apply(this);
+        }
+        if(node.GetInit() != null)
+        {
+            node.GetInit().Apply(this);
+        }
+        OutAIntizationInitialization(node);
+    }
+    public virtual void InAFloatizationInitialization(AFloatizationInitialization node)
+    {
+        DefaultIn(node);
+    }
+
+    public virtual void OutAFloatizationInitialization(AFloatizationInitialization node)
+    {
+        DefaultOut(node);
+    }
+
+    public override void CaseAFloatizationInitialization(AFloatizationInitialization node)
+    {
+        InAFloatizationInitialization(node);
+        if(node.GetFloat() != null)
+        {
+            node.GetFloat().Apply(this);
+        }
+        if(node.GetInit() != null)
+        {
+            node.GetInit().Apply(this);
+        }
+        OutAFloatizationInitialization(node);
     }
     public virtual void InAFirstList(AFirstList node)
     {

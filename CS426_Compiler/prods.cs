@@ -20,6 +20,14 @@ public abstract class PMethod : Node
 {
 }
 
+public abstract class PConstants : Node
+{
+}
+
+public abstract class PInitialization : Node
+{
+}
+
 public abstract class PList : Node
 {
 }
@@ -629,6 +637,510 @@ public sealed class ANothingMethod : PMethod
 
     internal override void ReplaceChild(Node oldChild, Node newChild)
     {
+    }
+
+}
+public sealed class AConstantinitConstants : PConstants
+{
+    private PConstants _constants_;
+    private TConstant _constant_;
+    private PE1 _one_;
+    private PE1 _two_;
+    private PInitialization _initialization_;
+
+    public AConstantinitConstants ()
+    {
+    }
+
+    public AConstantinitConstants (
+            PConstants _constants_,
+            TConstant _constant_,
+            PE1 _one_,
+            PE1 _two_,
+            PInitialization _initialization_
+    )
+    {
+        SetConstants (_constants_);
+        SetConstant (_constant_);
+        SetOne (_one_);
+        SetTwo (_two_);
+        SetInitialization (_initialization_);
+    }
+
+    public override Object Clone()
+    {
+        return new AConstantinitConstants (
+            (PConstants)CloneNode (_constants_),
+            (TConstant)CloneNode (_constant_),
+            (PE1)CloneNode (_one_),
+            (PE1)CloneNode (_two_),
+            (PInitialization)CloneNode (_initialization_)
+        );
+    }
+
+    public override void Apply(Switch sw)
+    {
+        ((Analysis) sw).CaseAConstantinitConstants(this);
+    }
+
+    public PConstants GetConstants ()
+    {
+        return _constants_;
+    }
+
+    public void SetConstants (PConstants node)
+    {
+        if(_constants_ != null)
+        {
+            _constants_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _constants_ = node;
+    }
+    public TConstant GetConstant ()
+    {
+        return _constant_;
+    }
+
+    public void SetConstant (TConstant node)
+    {
+        if(_constant_ != null)
+        {
+            _constant_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _constant_ = node;
+    }
+    public PE1 GetOne ()
+    {
+        return _one_;
+    }
+
+    public void SetOne (PE1 node)
+    {
+        if(_one_ != null)
+        {
+            _one_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _one_ = node;
+    }
+    public PE1 GetTwo ()
+    {
+        return _two_;
+    }
+
+    public void SetTwo (PE1 node)
+    {
+        if(_two_ != null)
+        {
+            _two_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _two_ = node;
+    }
+    public PInitialization GetInitialization ()
+    {
+        return _initialization_;
+    }
+
+    public void SetInitialization (PInitialization node)
+    {
+        if(_initialization_ != null)
+        {
+            _initialization_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _initialization_ = node;
+    }
+
+    public override string ToString()
+    {
+        return ""
+            + ToString (_constants_)
+            + ToString (_constant_)
+            + ToString (_one_)
+            + ToString (_two_)
+            + ToString (_initialization_)
+        ;
+    }
+
+    internal override void RemoveChild(Node child)
+    {
+        if ( _constants_ == child )
+        {
+            _constants_ = null;
+            return;
+        }
+        if ( _constant_ == child )
+        {
+            _constant_ = null;
+            return;
+        }
+        if ( _one_ == child )
+        {
+            _one_ = null;
+            return;
+        }
+        if ( _two_ == child )
+        {
+            _two_ = null;
+            return;
+        }
+        if ( _initialization_ == child )
+        {
+            _initialization_ = null;
+            return;
+        }
+    }
+
+    internal override void ReplaceChild(Node oldChild, Node newChild)
+    {
+        if ( _constants_ == oldChild )
+        {
+            SetConstants ((PConstants) newChild);
+            return;
+        }
+        if ( _constant_ == oldChild )
+        {
+            SetConstant ((TConstant) newChild);
+            return;
+        }
+        if ( _one_ == oldChild )
+        {
+            SetOne ((PE1) newChild);
+            return;
+        }
+        if ( _two_ == oldChild )
+        {
+            SetTwo ((PE1) newChild);
+            return;
+        }
+        if ( _initialization_ == oldChild )
+        {
+            SetInitialization ((PInitialization) newChild);
+            return;
+        }
+    }
+
+}
+public sealed class ANothingConstants : PConstants
+{
+
+
+    public ANothingConstants (
+    )
+    {
+    }
+
+    public override Object Clone()
+    {
+        return new ANothingConstants (
+        );
+    }
+
+    public override void Apply(Switch sw)
+    {
+        ((Analysis) sw).CaseANothingConstants(this);
+    }
+
+
+    public override string ToString()
+    {
+        return ""
+        ;
+    }
+
+    internal override void RemoveChild(Node child)
+    {
+    }
+
+    internal override void ReplaceChild(Node oldChild, Node newChild)
+    {
+    }
+
+}
+public sealed class AIntizationInitialization : PInitialization
+{
+    private TInit _init_;
+    private TInt _int_;
+
+    public AIntizationInitialization ()
+    {
+    }
+
+    public AIntizationInitialization (
+            TInit _init_,
+            TInt _int_
+    )
+    {
+        SetInit (_init_);
+        SetInt (_int_);
+    }
+
+    public override Object Clone()
+    {
+        return new AIntizationInitialization (
+            (TInit)CloneNode (_init_),
+            (TInt)CloneNode (_int_)
+        );
+    }
+
+    public override void Apply(Switch sw)
+    {
+        ((Analysis) sw).CaseAIntizationInitialization(this);
+    }
+
+    public TInit GetInit ()
+    {
+        return _init_;
+    }
+
+    public void SetInit (TInit node)
+    {
+        if(_init_ != null)
+        {
+            _init_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _init_ = node;
+    }
+    public TInt GetInt ()
+    {
+        return _int_;
+    }
+
+    public void SetInt (TInt node)
+    {
+        if(_int_ != null)
+        {
+            _int_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _int_ = node;
+    }
+
+    public override string ToString()
+    {
+        return ""
+            + ToString (_init_)
+            + ToString (_int_)
+        ;
+    }
+
+    internal override void RemoveChild(Node child)
+    {
+        if ( _init_ == child )
+        {
+            _init_ = null;
+            return;
+        }
+        if ( _int_ == child )
+        {
+            _int_ = null;
+            return;
+        }
+    }
+
+    internal override void ReplaceChild(Node oldChild, Node newChild)
+    {
+        if ( _init_ == oldChild )
+        {
+            SetInit ((TInit) newChild);
+            return;
+        }
+        if ( _int_ == oldChild )
+        {
+            SetInt ((TInt) newChild);
+            return;
+        }
+    }
+
+}
+public sealed class AFloatizationInitialization : PInitialization
+{
+    private TInit _init_;
+    private TFloat _float_;
+
+    public AFloatizationInitialization ()
+    {
+    }
+
+    public AFloatizationInitialization (
+            TInit _init_,
+            TFloat _float_
+    )
+    {
+        SetInit (_init_);
+        SetFloat (_float_);
+    }
+
+    public override Object Clone()
+    {
+        return new AFloatizationInitialization (
+            (TInit)CloneNode (_init_),
+            (TFloat)CloneNode (_float_)
+        );
+    }
+
+    public override void Apply(Switch sw)
+    {
+        ((Analysis) sw).CaseAFloatizationInitialization(this);
+    }
+
+    public TInit GetInit ()
+    {
+        return _init_;
+    }
+
+    public void SetInit (TInit node)
+    {
+        if(_init_ != null)
+        {
+            _init_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _init_ = node;
+    }
+    public TFloat GetFloat ()
+    {
+        return _float_;
+    }
+
+    public void SetFloat (TFloat node)
+    {
+        if(_float_ != null)
+        {
+            _float_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _float_ = node;
+    }
+
+    public override string ToString()
+    {
+        return ""
+            + ToString (_init_)
+            + ToString (_float_)
+        ;
+    }
+
+    internal override void RemoveChild(Node child)
+    {
+        if ( _init_ == child )
+        {
+            _init_ = null;
+            return;
+        }
+        if ( _float_ == child )
+        {
+            _float_ = null;
+            return;
+        }
+    }
+
+    internal override void ReplaceChild(Node oldChild, Node newChild)
+    {
+        if ( _init_ == oldChild )
+        {
+            SetInit ((TInit) newChild);
+            return;
+        }
+        if ( _float_ == oldChild )
+        {
+            SetFloat ((TFloat) newChild);
+            return;
+        }
     }
 
 }

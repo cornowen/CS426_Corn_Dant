@@ -459,6 +459,56 @@ public sealed class TVariable : Token
     }
 }
 
+public sealed class TConstant : Token
+{
+    public TConstant(string text)
+    {
+        Text = text;
+    }
+
+    public TConstant(string text, int line, int pos)
+    {
+        Text = text;
+        Line = line;
+        Pos = pos;
+    }
+
+    public override Object Clone()
+    {
+      return new TConstant(Text, Line, Pos);
+    }
+
+    public override void Apply(Switch sw)
+    {
+        ((Analysis) sw).CaseTConstant(this);
+    }
+}
+
+public sealed class TInit : Token
+{
+    public TInit(string text)
+    {
+        Text = text;
+    }
+
+    public TInit(string text, int line, int pos)
+    {
+        Text = text;
+        Line = line;
+        Pos = pos;
+    }
+
+    public override Object Clone()
+    {
+      return new TInit(Text, Line, Pos);
+    }
+
+    public override void Apply(Switch sw)
+    {
+        ((Analysis) sw).CaseTInit(this);
+    }
+}
+
 public sealed class TPlus : Token
 {
     public TPlus(string text)
