@@ -42,9 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="analysis.cs" />
-    <Compile Include="corn_parser.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Definition.cs" />
     <Compile Include="lexer.cs">
       <SubType>Code</SubType>
