@@ -30,6 +30,8 @@ Tokens //contains reserved words
 	float = digit* '.' digit+ ('e' '-'? digit+)?;
 	string = '"' (string_char|'\"')* '"';
 	variable = (letter) (digit|letter|'_'(digit|letter))*;
+	constant = 'final';
+	init = ':=';
 
 	//plus, minus, multiply, divide
 	plus = '+';
@@ -71,6 +73,10 @@ Productions
 	main_method = main left_parenthesis right_parenthesis left_curly_brace list right_curly_brace;
 
 	method = {method_recurse} method_declare method | {nothing};
+
+	constants = {constantinit} constants constant [one]:e1 [two]:e1 inititialization eol | {nothing};
+
+	initialization = {intization} intit int | {floatization} init float;
 
 	list = {first} vardecl list | {second} varassign list | {third} method_call list | {fourth} if_statement list | {while} while_statement list | {array} array_create list | {nothing};
 
