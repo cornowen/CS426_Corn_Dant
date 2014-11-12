@@ -130,5 +130,29 @@ namespace parser
             }
         }
 
+        public override void OutAArrayCreate(comp5210.node.AArrayCreate node)
+        {
+            string typename = node.GetType().Text;
+            string varname = node.GetNameOfArray().Text;
+            Definition typedefn;
+            // lookup the type
+            if (!stringhash.TryGetValue(typename, out typedefn))
+            {
+                Console.WriteLine("[" + node.GetOne().Line + "]: " +
+                    typename + " is not defined.");
+                nodehash.Add(node, typedefn);
+            }
+            // check to make sure what we got back is a type
+            else if (!(typedefn is TypeDefinition))
+            {
+                Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
+                    typename + " is an invalid type.");
+                nodehash.Add(node, typedefn);
+            }
+        }
+
+
+
+
     }
 }
