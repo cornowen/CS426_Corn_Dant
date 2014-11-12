@@ -20,8 +20,10 @@ namespace parser
     }
     public class ArrayType : TypeDefinition
     {
-        public int length;
         public TypeDefinition arrtype;
+    }
+    public class BoolType : TypeDefinition
+    {
     }
 
     // variable definition
@@ -31,8 +33,15 @@ namespace parser
         public bool constant;
     }
 
-    // subprogram definition
-    public class MethodDefinition : Definition
+    // subprogram definitions
+    public class SubprogramDefinition : Definition
+    {
+    }
+    public class ProcedureDefinition : SubprogramDefinition
+    {
+        // store bool expression in () maybe?
+    }
+    public class MethodDefinition : SubprogramDefinition
     {
         public Array parameters;
     }

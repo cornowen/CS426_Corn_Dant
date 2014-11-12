@@ -434,31 +434,6 @@ public sealed class TString : Token
     }
 }
 
-public sealed class TVariable : Token
-{
-    public TVariable(string text)
-    {
-        Text = text;
-    }
-
-    public TVariable(string text, int line, int pos)
-    {
-        Text = text;
-        Line = line;
-        Pos = pos;
-    }
-
-    public override Object Clone()
-    {
-      return new TVariable(Text, Line, Pos);
-    }
-
-    public override void Apply(Switch sw)
-    {
-        ((Analysis) sw).CaseTVariable(this);
-    }
-}
-
 public sealed class TConstant : Token
 {
     public TConstant(string text)
@@ -481,6 +456,31 @@ public sealed class TConstant : Token
     public override void Apply(Switch sw)
     {
         ((Analysis) sw).CaseTConstant(this);
+    }
+}
+
+public sealed class TVariable : Token
+{
+    public TVariable(string text)
+    {
+        Text = text;
+    }
+
+    public TVariable(string text, int line, int pos)
+    {
+        Text = text;
+        Line = line;
+        Pos = pos;
+    }
+
+    public override Object Clone()
+    {
+      return new TVariable(Text, Line, Pos);
+    }
+
+    public override void Apply(Switch sw)
+    {
+        ((Analysis) sw).CaseTVariable(this);
     }
 }
 

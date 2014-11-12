@@ -96,8 +96,8 @@ public interface Analysis : Switch
     void CaseTInt(TInt node);
     void CaseTFloat(TFloat node);
     void CaseTString(TString node);
-    void CaseTVariable(TVariable node);
     void CaseTConstant(TConstant node);
+    void CaseTVariable(TVariable node);
     void CaseTInit(TInit node);
     void CaseTPlus(TPlus node);
     void CaseTMinus(TMinus node);
@@ -506,11 +506,11 @@ public class AnalysisAdapter : Analysis
     {
         DefaultCase(node);
     }
-    public virtual void CaseTVariable(TVariable node)
+    public virtual void CaseTConstant(TConstant node)
     {
         DefaultCase(node);
     }
-    public virtual void CaseTConstant(TConstant node)
+    public virtual void CaseTVariable(TVariable node)
     {
         DefaultCase(node);
     }
@@ -651,6 +651,10 @@ public class DepthFirstAdapter : AnalysisAdapter
     public override void CaseAProgram(AProgram node)
     {
         InAProgram(node);
+        if(node.GetConstants() != null)
+        {
+            node.GetConstants().Apply(this);
+        }
         if(node.GetMethod() != null)
         {
             node.GetMethod().Apply(this);
@@ -2466,6 +2470,10 @@ public class ReversedDepthFirstAdapter : AnalysisAdapter
         if(node.GetMethod() != null)
         {
             node.GetMethod().Apply(this);
+        }
+        if(node.GetConstants() != null)
+        {
+            node.GetConstants().Apply(this);
         }
         OutAProgram(node);
     }

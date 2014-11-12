@@ -668,8 +668,8 @@ public class Lexer
     private Token New14(String text, int line, int pos) { return new TInt(text, line, pos); }
     private Token New15(String text, int line, int pos) { return new TFloat(text, line, pos); }
     private Token New16(String text, int line, int pos) { return new TString(text, line, pos); }
-    private Token New17(String text, int line, int pos) { return new TVariable(text, line, pos); }
-    private Token New18(String text, int line, int pos) { return new TConstant(text, line, pos); }
+    private Token New17(String text, int line, int pos) { return new TConstant(text, line, pos); }
+    private Token New18(String text, int line, int pos) { return new TVariable(text, line, pos); }
     private Token New19(String text, int line, int pos) { return new TInit(text, line, pos); }
     private Token New20(String text, int line, int pos) { return new TPlus(text, line, pos); }
     private Token New21(String text, int line, int pos) { return new TMinus(text, line, pos); }
@@ -1211,12 +1211,12 @@ public class Lexer
     private static int[][] accept = {
       new int[] {
         -1, 0, 0, 0, 0, 32, -1, -1, 24, 25, 22, 20, 10, 21, -1, 23, 
-        14, -1, 9, 33, 38, 34, 17, 26, 27, 17, 17, 17, 17, 17, 17, 17, 
-        17, 17, 17, 28, -1, 29, 39, -1, 16, -1, 30, 15, -1, 19, 35, 37, 
-        36, 17, 17, -1, 17, 17, 17, 11, 17, 17, 17, 17, 17, 17, 17, 31, 
-        16, -1, 1, 1, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 
-        17, -1, 15, 17, 12, 17, 8, 17, 17, 17, 17, 7, 17, 2, 17, 17, 
-        17, 17, 17, 13, 17, 3, 5, 6, 4, 
+        14, -1, 9, 33, 38, 34, 18, 26, 27, 18, 18, 18, 18, 18, 18, 18, 
+        18, 18, 18, 28, -1, 29, 39, -1, 16, -1, 30, 15, -1, 19, 35, 37, 
+        36, 18, 18, -1, 18, 18, 18, 11, 18, 18, 18, 18, 18, 18, 18, 31, 
+        16, -1, 1, 1, -1, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 
+        18, -1, 15, 18, 12, 18, 8, 18, 18, 18, 18, 7, 18, 2, 17, 18, 
+        18, 18, 18, 13, 18, 3, 5, 6, 4, 
       },
     };
 

@@ -28,9 +28,77 @@ namespace parser
             inttype.name = "int";
             BasicType floattype = new BasicType();
             floattype.name = "float";
+            BoolType booltype = new BoolType();
+            booltype.name = "bool";
             stringhash.Add(inttype.name,inttype);
             stringhash.Add(floattype.name, floattype);
+            stringhash.Add(booltype.name, booltype);
             
+        }
+
+        public override void OutAMainMethod(comp5210.node.AMainMethod node)
+        {
+            
+        }
+
+        public override void OutAMethodRecurseMethod(comp5210.node.AMethodRecurseMethod node)
+        {
+            
+        }
+
+        public override void OutAConstantinitConstants(comp5210.node.AConstantinitConstants node)
+        {
+            string typename = node.GetOne().Text;
+            string varname = node.GetTwo().Text;
+            Definition typedefn;
+            // lookup the type
+            if (!stringhash.TryGetValue(typename, out typedefn))
+            {
+                Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
+                    typename + ", is not defined.");
+                nodehash.Add(node, typedefn);
+            }
+            // check to make sure what we got back is a type
+            else if (!(typedefn is TypeDefinition))
+            {
+                Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
+                    typename + " is an invalid type.");
+                nodehash.Add(node, typedefn);
+            }
+            else
+            {
+                // add this variable to the hash table
+                // note you need to add checks to make sure this 
+                // variable name isn't already defined.
+                if (!stringhash.TryGetValue(varname, out typedefn))//not in string hash
+                {
+                    //check left and right hand side to see if the types match
+                    Definition rhs, lhs;
+                    nodehash.TryGetValue(node.GetInitialization(), out rhs);
+                    stringhash.TryGetValue(typename, out lhs);
+
+                    if (lhs != rhs)
+                    {
+                        Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
+                            "types don't match");
+                    }
+                    else
+                    {
+                        VariableDefinition vardefn = new VariableDefinition();
+                        vardefn.name = varname;
+                        vardefn.constant = true;
+                        vardefn.vartype = lhs as TypeDefinition;
+                        stringhash.Add(vardefn.name, vardefn);
+                    }
+                }
+                else
+                {
+                    // error: varname already defined
+                    Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
+                        varname + " is already defined elsewhere.");
+                    nodehash.Add(node, typedefn);
+                }
+            }
         }
 
         public override void OutASide1Vardecl(comp5210.node.ASide1Vardecl node)
@@ -75,60 +143,241 @@ namespace parser
             }
         }
 
-        public override void OutAConstantinitConstants(comp5210.node.AConstantinitConstants node)
+        public override void OutAIntizationInitialization(comp5210.node.AIntizationInitialization node)
         {
-            string typename = node.GetOne().ToString();
-            string varname = node.GetTwo().ToString();
-            Definition typedefn;
-            // lookup the type
-            if (!stringhash.TryGetValue(typename, out typedefn))
+            Definition intdef;
+            stringhash.TryGetValue("int", out intdef);
+            nodehash.Add(node, intdef);   
+        }
+
+        public override void OutAFloatizationInitialization(comp5210.node.AFloatizationInitialization node)
+        {
+            
+        }
+
+        public override void OutAFirstList(comp5210.node.AFirstList node)
+        {
+            
+        }
+
+        public override void OutASecondList(comp5210.node.ASecondList node)
+        {
+            
+        }
+
+        public override void OutAThirdList(comp5210.node.AThirdList node)
+        {
+            
+        }
+
+        public override void OutAFourthList(comp5210.node.AFourthList node)
+        {
+            
+        }
+
+        public override void OutAWhileList(comp5210.node.AWhileList node)
+        {
+            
+        }
+
+        public override void OutAArrayList(comp5210.node.AArrayList node)
+        {
+            
+        }
+
+        public override void OutASide1E1(comp5210.node.ASide1E1 node)
+        {
+            base.OutASide1E1(node);
+        }
+
+        public override void OutASide2E1(comp5210.node.ASide2E1 node)
+        {
+            
+        }
+
+        public override void OutASide3E1(comp5210.node.ASide3E1 node)
+        {
+           
+        }
+
+        //      public override void OutASide1E2(comp5210.node.ASide1E2 node)
+        //        {
+        //  BoolType boolDef;
+        //    Definition rhs, lhs; // get the node's children
+        //      nodehash.TryGetValue(node.GetOne(), out rhs);
+        //        nodehash.TryGetValue(node.GetTwo(), out lhs);
+        //          // check to make sure the types match
+        //            if (lhs.GetType() != rhs.GetType())
+        //{
+        //      Console.WriteLine("[" + node.GetLessThan().Line + "]: " +
+        //            "types don't match");
+        //      }
+        //        else
+        //          {
+        //            //    boolDef = new BoolType();
+        //      boolDef.name = "lessthan";
+        //        boolDef.op = "<";
+        //          stringhash.Add(boolDef.name, boolDef);
+        //           
+        //          }
+        //        }
+
+        public override void OutASide2E2(comp5210.node.ASide2E2 node)
+        {
+            base.OutASide2E2(node);
+        }
+
+        public override void OutASide3E2(comp5210.node.ASide3E2 node)
+        {
+            base.OutASide3E2(node);
+        }
+
+        public override void OutASide4E2(comp5210.node.ASide4E2 node)
+        {
+            base.OutASide4E2(node);
+        }
+
+        public override void OutASide5E2(comp5210.node.ASide5E2 node)
+        {
+            base.OutASide5E2(node);
+        }
+
+        public override void OutASide6E2(comp5210.node.ASide6E2 node)
+        {
+            base.OutASide6E2(node);
+        }
+
+        public override void OutASide7E2(comp5210.node.ASide7E2 node)
+        {
+            base.OutASide7E2(node);
+        }
+
+        public override void OutASide8E2(comp5210.node.ASide8E2 node)
+        {
+            base.OutASide8E2(node);
+        }
+
+        public override void OutASide1E3(comp5210.node.ASide1E3 node)
+        {
+            Definition lhs, rhs;
+            nodehash.TryGetValue(node.GetE3(), out lhs);
+            nodehash.TryGetValue(node.GetE4(), out rhs);
+            // you should really get the types of both sides and make sure 
+            // they match
+            // make sure the type of the child is a BasicType, as those
+            // are the only addable things.
+            if(lhs != rhs)
             {
-                Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
-                    typename + " is not defined.");
-                nodehash.Add(node, typedefn);
+                Console.WriteLine("[" + node.GetPlus().Line + "]: " +
+                    " operand types do not match.");
+                nodehash.Add(node, lhs);
             }
-            // check to make sure what we got back is a type
-            else if (!(typedefn is TypeDefinition))
+            else if (!(lhs is BasicType))
             {
-                Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
-                    typename + " is an invalid type.");
-                nodehash.Add(node, typedefn);
+                Console.WriteLine("[" + node.GetPlus().Line + "]: " +
+                    " left operand is not an addable type.");
+                nodehash.Add(node, lhs);
+            }
+            else if (!(rhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetPlus().Line + "]: " +
+                    " right operand is not an addable type.");
+                nodehash.Add(node, lhs);
             }
             else
             {
-                // add this variable to the hash table
-                // note you need to add checks to make sure this 
-                // variable name isn't already defined.
-                if (!stringhash.TryGetValue(varname, out typedefn))//not in string hash
-                {
-                    //check left and right hand side to see if the types match
-                    Definition rhs, lhs;
-                    nodehash.TryGetValue(node.GetInitialization(), out rhs);
-                    stringhash.TryGetValue(typename, out lhs);
+                nodehash.Add(node, lhs);
+            }
+            
+        }
 
-                    if ((lhs as VariableDefinition).vartype != rhs)
-                    {
-                        Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
-                            "types don't match");
-                    }
-                    else
-                    {
-                        VariableDefinition vardefn = new VariableDefinition();
-                        vardefn.name = varname;
-                        vardefn.constant = true;
-                        vardefn.vartype = typedefn as TypeDefinition;
-                        stringhash.Add(vardefn.name, vardefn);
-                    }
-                }
-                else
-                {
-                    // error: varname already defined
-                    Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
-                    varname + " is already defined elsewhere.");
-                    nodehash.Add(node, typedefn);
-                }
+        public override void OutASide2E3(comp5210.node.ASide2E3 node)
+        {
+            Definition lhs, rhs;
+            nodehash.TryGetValue(node.GetE3(), out lhs);
+            nodehash.TryGetValue(node.GetE4(), out rhs);
+            // you should really get the types of both sides and make sure 
+            // they match
+            // make sure the type of the child is a BasicType, as those
+            // are the only addable things.
+            if (lhs != rhs)
+            {
+                Console.WriteLine("[" + node.GetMinus().Line + "]: " +
+                    " operand types do not match.");
+                nodehash.Add(node, lhs);
+            }
+            else if (!(lhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetMinus().Line + "]: " +
+                    " left operand is not a subtractable type.");
+                nodehash.Add(node, lhs);
+            }
+            else if (!(rhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetMinus().Line + "]: " +
+                    " right operand is not an aubtractable type.");
+                nodehash.Add(node, lhs);
+            }
+            else
+            {
+                nodehash.Add(node, lhs);
             }
         }
 
+        public override void OutASide3E3(comp5210.node.ASide3E3 node)
+        {
+            base.OutASide3E3(node);
+        }
+
+        public override void OutASide1E4(comp5210.node.ASide1E4 node)
+        {
+            base.OutASide1E4(node);
+        }
+
+        public override void OutASide2E4(comp5210.node.ASide2E4 node)
+        {
+            base.OutASide2E4(node);
+        }
+
+        public override void OutASide3E4(comp5210.node.ASide3E4 node)
+        {
+            base.OutASide3E4(node);
+        }
+
+        public override void OutASide1E5(comp5210.node.ASide1E5 node)
+        {
+            base.OutASide1E5(node);
+        }
+
+        public override void OutASide2E5(comp5210.node.ASide2E5 node)
+        {
+            base.OutASide2E5(node);
+        }
+
+        public override void OutASide3E5(comp5210.node.ASide3E5 node)
+        {
+            Definition intdef;
+            stringhash.TryGetValue("int", out intdef);
+            nodehash.Add(node, intdef);
+        }
+
+        public override void OutASide4E5(comp5210.node.ASide4E5 node)
+        {
+            base.OutASide4E5(node);
+        }
+
+
+
+ 
+
+        //------------------------------------------------
+
+       // public override void OutAWhileStatement(comp5210.node.AWhileStatement node)
+        //{
+        //    Definition whileexpression;
+        //    nodehash.TryGetValue(node.GetE1(), out whileexpression);
+        //    if((whileexpression as ProcedureDefinition).)
+        //}
+    
     }
 }

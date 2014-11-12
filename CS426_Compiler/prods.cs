@@ -99,6 +99,7 @@ public abstract class PArrayCreate : Node
 
 public sealed class AProgram : PProgram
 {
+    private PConstants _constants_;
     private PMethod _method_;
     private PMainMethod _main_method_;
 
@@ -107,10 +108,12 @@ public sealed class AProgram : PProgram
     }
 
     public AProgram (
+            PConstants _constants_,
             PMethod _method_,
             PMainMethod _main_method_
     )
     {
+        SetConstants (_constants_);
         SetMethod (_method_);
         SetMainMethod (_main_method_);
     }
@@ -118,6 +121,7 @@ public sealed class AProgram : PProgram
     public override Object Clone()
     {
         return new AProgram (
+            (PConstants)CloneNode (_constants_),
             (PMethod)CloneNode (_method_),
             (PMainMethod)CloneNode (_main_method_)
         );
@@ -128,6 +132,30 @@ public sealed class AProgram : PProgram
         ((Analysis) sw).CaseAProgram(this);
     }
 
+    public PConstants GetConstants ()
+    {
+        return _constants_;
+    }
+
+    public void SetConstants (PConstants node)
+    {
+        if(_constants_ != null)
+        {
+            _constants_.Parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.Parent() != null)
+            {
+                node.Parent().RemoveChild(node);
+            }
+
+            node.Parent(this);
+        }
+
+        _constants_ = node;
+    }
     public PMethod GetMethod ()
     {
         return _method_;
@@ -180,6 +208,7 @@ public sealed class AProgram : PProgram
     public override string ToString()
     {
         return ""
+            + ToString (_constants_)
             + ToString (_method_)
             + ToString (_main_method_)
         ;
@@ -187,6 +216,11 @@ public sealed class AProgram : PProgram
 
     internal override void RemoveChild(Node child)
     {
+        if ( _constants_ == child )
+        {
+            _constants_ = null;
+            return;
+        }
         if ( _method_ == child )
         {
             _method_ = null;
@@ -201,6 +235,11 @@ public sealed class AProgram : PProgram
 
     internal override void ReplaceChild(Node oldChild, Node newChild)
     {
+        if ( _constants_ == oldChild )
+        {
+            SetConstants ((PConstants) newChild);
+            return;
+        }
         if ( _method_ == oldChild )
         {
             SetMethod ((PMethod) newChild);
@@ -644,8 +683,8 @@ public sealed class AConstantinitConstants : PConstants
 {
     private PConstants _constants_;
     private TConstant _constant_;
-    private PE1 _one_;
-    private PE1 _two_;
+    private TVariable _one_;
+    private TVariable _two_;
     private PInitialization _initialization_;
     private TSemicolon _semicolon_;
 
@@ -656,8 +695,8 @@ public sealed class AConstantinitConstants : PConstants
     public AConstantinitConstants (
             PConstants _constants_,
             TConstant _constant_,
-            PE1 _one_,
-            PE1 _two_,
+            TVariable _one_,
+            TVariable _two_,
             PInitialization _initialization_,
             TSemicolon _semicolon_
     )
@@ -675,8 +714,8 @@ public sealed class AConstantinitConstants : PConstants
         return new AConstantinitConstants (
             (PConstants)CloneNode (_constants_),
             (TConstant)CloneNode (_constant_),
-            (PE1)CloneNode (_one_),
-            (PE1)CloneNode (_two_),
+            (TVariable)CloneNode (_one_),
+            (TVariable)CloneNode (_two_),
             (PInitialization)CloneNode (_initialization_),
             (TSemicolon)CloneNode (_semicolon_)
         );
@@ -735,12 +774,12 @@ public sealed class AConstantinitConstants : PConstants
 
         _constant_ = node;
     }
-    public PE1 GetOne ()
+    public TVariable GetOne ()
     {
         return _one_;
     }
 
-    public void SetOne (PE1 node)
+    public void SetOne (TVariable node)
     {
         if(_one_ != null)
         {
@@ -759,12 +798,12 @@ public sealed class AConstantinitConstants : PConstants
 
         _one_ = node;
     }
-    public PE1 GetTwo ()
+    public TVariable GetTwo ()
     {
         return _two_;
     }
 
-    public void SetTwo (PE1 node)
+    public void SetTwo (TVariable node)
     {
         if(_two_ != null)
         {
@@ -892,12 +931,12 @@ public sealed class AConstantinitConstants : PConstants
         }
         if ( _one_ == oldChild )
         {
-            SetOne ((PE1) newChild);
+            SetOne ((TVariable) newChild);
             return;
         }
         if ( _two_ == oldChild )
         {
-            SetTwo ((PE1) newChild);
+            SetTwo ((TVariable) newChild);
             return;
         }
         if ( _initialization_ == oldChild )
