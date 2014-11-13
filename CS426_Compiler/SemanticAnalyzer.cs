@@ -28,13 +28,14 @@ namespace parser
             inttype.name = "int";
             BasicType floattype = new BasicType();
             floattype.name = "float";
-            BasicType stringtype = new BasicType();
+            StringType stringtype = new StringType();
             stringtype.name = "String";
             BoolType booltype = new BoolType();
             booltype.name = "bool";
             stringhash.Add(inttype.name,inttype);
             stringhash.Add(floattype.name, floattype);
             stringhash.Add(booltype.name, booltype);
+            stringhash.Add(stringtype.name, stringtype);
             
         }
 
@@ -119,12 +120,16 @@ namespace parser
 
         public override void OutAFirstList(comp5210.node.AFirstList node)
         {
-            
+            Definition defn;
+            nodehash.TryGetValue(node.GetVardecl(), out defn);
+            nodehash.Add(node, defn);
         }
 
         public override void OutASecondList(comp5210.node.ASecondList node)
         {
-            
+            Definition defn;
+            nodehash.TryGetValue(node.GetVarassign(), out defn);
+            nodehash.Add(node, defn);   
         }
 
         public override void OutAThirdList(comp5210.node.AThirdList node)
@@ -378,10 +383,18 @@ namespace parser
         public override void OutASide2E5(comp5210.node.ASide2E5 node)
         {
             Definition vardef;
-            stringhash.TryGetValue(node.GetVariable().Text, out vardef);
-            VariableDefinition vvardef;
-            vvardef = vardef as VariableDefinition;
-            nodehash.Add(node, vvardef.vartype);
+            if (!stringhash.TryGetValue(node.GetVariable().Text, out vardef))
+            {
+                Console.WriteLine("[" + node.GetVariable().Line + "]: " +
+                   node.GetVariable().Text + " is not defined.");
+                nodehash.Add(node, vardef);
+            }
+            else
+            {
+                VariableDefinition vvardef;
+                vvardef = vardef as VariableDefinition;
+                nodehash.Add(node, vvardef.vartype);
+            }
         }
 
         public override void OutASide3E5(comp5210.node.ASide3E5 node)
@@ -482,22 +495,23 @@ namespace parser
         public override void OutAVarassign(comp5210.node.AVarassign node)
         {
             string varname = node.GetVariable().Text;
-            Definition typedefn;
-            if (!stringhash.TryGetValue(varname, out typedefn))
+            Definition vardefn;
+            if (!stringhash.TryGetValue(varname, out vardefn))
             {
                 Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
                    varname + " variable is not declared.");
-                nodehash.Add(node, typedefn);
+                nodehash.Add(node, vardefn);
             }
             else
             {
                 Definition rhs;
                 VariableDefinition lhs, arhs;
-                lhs = typedefn as VariableDefinition;
+                lhs = vardefn as VariableDefinition;
                 nodehash.TryGetValue(node.GetE1(), out rhs);
                 
                 if (lhs.vartype != rhs)
                 {
+                    Definition rcheck;
                     arhs = rhs as VariableDefinition;
                     if (arhs != null && lhs.vartype != arhs.vartype)
                     {

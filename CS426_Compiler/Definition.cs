@@ -25,6 +25,9 @@ namespace parser
     public class BoolType : TypeDefinition
     {
     }
+    public class StringType : TypeDefinition
+    {
+    }
 
     // variable definition
     public class VariableDefinition : Definition
