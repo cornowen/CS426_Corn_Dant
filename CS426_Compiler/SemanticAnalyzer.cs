@@ -163,28 +163,40 @@ namespace parser
             nodehash.TryGetValue(node.GetE2(), out nodetype);
             nodehash.Add(node, nodetype);
         }
+        public override void OutASide1E2(comp5210.node.ASide1E2 node)
+        {
+            Definition lhs, rhs;
+            nodehash.TryGetValue(node.GetOne(), out lhs);
+            nodehash.TryGetValue(node.GetTwo(), out rhs);
 
-        //      public override void OutASide1E2(comp5210.node.ASide1E2 node)
-        //        {
-        //  BoolType boolDef;
-        //    Definition rhs, lhs; // get the node's children
-        //      nodehash.TryGetValue(node.GetOne(), out rhs);
-        //        nodehash.TryGetValue(node.GetTwo(), out lhs);
-        //          // check to make sure the types match
-        //            if (lhs.GetType() != rhs.GetType())
-        //{
-        //      Console.WriteLine("[" + node.GetLessThan().Line + "]: " +
-        //            "types don't match");
-        //      }
-        //        else
-        //          {
-        //            //    boolDef = new BoolType();
-        //      boolDef.name = "lessthan";
-        //        boolDef.op = "<";
-        //          stringhash.Add(boolDef.name, boolDef);
-        //           
-        //          }
-        //        }
+            if (lhs != rhs)
+            {
+                Console.WriteLine(lhs);
+                Console.WriteLine(lhs.name);
+                Console.WriteLine(rhs);
+                Console.WriteLine("[" + node.GetLessThan().Line + "]: " +
+                    " operand types do not match.");
+                nodehash.Add(node, lhs);
+            }
+            else if (!(lhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetLessThan().Line + "]: " +
+                    " left operand is not an addable type.");
+                nodehash.Add(node, lhs);
+            }
+            else if (!(rhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetLessThan().Line + "]: " +
+                    " right operand is not an addable type.");
+                nodehash.Add(node, lhs);
+            }
+            else
+            {
+                BoolType booltype;
+                booltype = rhs as BoolType;
+                nodehash.Add(node, booltype);
+            }
+        }
 
         public override void OutASide2E2(comp5210.node.ASide2E2 node)
         {
@@ -225,36 +237,36 @@ namespace parser
 
         public override void OutASide1E3(comp5210.node.ASide1E3 node)
         {
-            Definition lhs, rhs;
+            Definition lhs, rhs; 
             nodehash.TryGetValue(node.GetE3(), out lhs);
             nodehash.TryGetValue(node.GetE4(), out rhs);
-            // you should really get the types of both sides and make sure 
-            // they match
-            // make sure the type of the child is a BasicType, as those
-            // are the only addable things.
-            if(lhs != rhs)
-            {
-                Console.WriteLine("[" + node.GetPlus().Line + "]: " +
-                    " operand types do not match.");
-                nodehash.Add(node, lhs);
-            }
-            else if (!(lhs is BasicType))
-            {
-                Console.WriteLine("[" + node.GetPlus().Line + "]: " +
-                    " left operand is not an addable type.");
-                nodehash.Add(node, lhs);
-            }
-            else if (!(rhs is BasicType))
-            {
-                Console.WriteLine("[" + node.GetPlus().Line + "]: " +
-                    " right operand is not an addable type.");
-                nodehash.Add(node, lhs);
-            }
-            else
-            {
-                nodehash.Add(node, lhs);
-            }
-            
+
+            if (lhs != rhs)
+                {
+                    Console.WriteLine(lhs);
+                    Console.WriteLine(lhs.name);
+                    Console.WriteLine(rhs);
+                    Console.WriteLine("[" + node.GetPlus().Line + "]: " +
+                        " operand types do not match.");
+                    nodehash.Add(node, lhs);
+                }
+                else if (!(lhs is BasicType))
+                {
+                    Console.WriteLine("[" + node.GetPlus().Line + "]: " +
+                        " left operand is not an addable type.");
+                    nodehash.Add(node, lhs);
+                }
+                else if (!(rhs is BasicType))
+                {
+                    Console.WriteLine("[" + node.GetPlus().Line + "]: " +
+                        " right operand is not an addable type.");
+                    nodehash.Add(node, lhs);
+                }
+                else
+                {
+                    nodehash.Add(node, lhs);
+                }
+                
         }
 
         public override void OutASide2E3(comp5210.node.ASide2E3 node)
@@ -262,10 +274,6 @@ namespace parser
             Definition lhs, rhs;
             nodehash.TryGetValue(node.GetE3(), out lhs);
             nodehash.TryGetValue(node.GetE4(), out rhs);
-            // you should really get the types of both sides and make sure 
-            // they match
-            // make sure the type of the child is a BasicType, as those
-            // are the only addable things.
             if (lhs != rhs)
             {
                 Console.WriteLine("[" + node.GetMinus().Line + "]: " +
@@ -281,7 +289,7 @@ namespace parser
             else if (!(rhs is BasicType))
             {
                 Console.WriteLine("[" + node.GetMinus().Line + "]: " +
-                    " right operand is not an aubtractable type.");
+                    " right operand is not an subtractable type.");
                 nodehash.Add(node, lhs);
             }
             else
@@ -299,12 +307,60 @@ namespace parser
 
         public override void OutASide1E4(comp5210.node.ASide1E4 node)
         {
-            base.OutASide1E4(node);
+            Definition lhs, rhs;
+            nodehash.TryGetValue(node.GetE4(), out lhs);
+            nodehash.TryGetValue(node.GetE5(), out rhs);
+            if (lhs != rhs)
+            {
+                Console.WriteLine("[" + node.GetMultiply().Line + "]: " +
+                    " operand types do not match.");
+                nodehash.Add(node, lhs);
+            }
+            else if (!(lhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetMultiply().Line + "]: " +
+                    " left operand is not a multiplicable type.");
+                nodehash.Add(node, lhs);
+            }
+            else if (!(rhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetMultiply().Line + "]: " +
+                    " right operand is not an multiplicable type.");
+                nodehash.Add(node, lhs);
+            }
+            else
+            {
+                nodehash.Add(node, lhs);
+            }
         }
 
         public override void OutASide2E4(comp5210.node.ASide2E4 node)
         {
-            base.OutASide2E4(node);
+            Definition lhs, rhs;
+            nodehash.TryGetValue(node.GetE4(), out lhs);
+            nodehash.TryGetValue(node.GetE5(), out rhs);
+            if (lhs != rhs)
+            {
+                Console.WriteLine("[" + node.GetDivide().Line + "]: " +
+                    " operand types do not match.");
+                nodehash.Add(node, lhs);
+            }
+            else if (!(lhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetDivide().Line + "]: " +
+                    " left operand is not a dividable type.");
+                nodehash.Add(node, lhs);
+            }
+            else if (!(rhs is BasicType))
+            {
+                Console.WriteLine("[" + node.GetDivide().Line + "]: " +
+                    " right operand is not an dividable type.");
+                nodehash.Add(node, lhs);
+            }
+            else
+            {
+                nodehash.Add(node, lhs);
+            }
         }
 
         public override void OutASide3E4(comp5210.node.ASide3E4 node)
@@ -316,12 +372,18 @@ namespace parser
 
         public override void OutASide1E5(comp5210.node.ASide1E5 node)
         {
-            base.OutASide1E5(node);
+            Definition exprtype;
+            nodehash.TryGetValue(node.GetE1(), out exprtype);
+            nodehash.Add(node, exprtype);
         }
 
         public override void OutASide2E5(comp5210.node.ASide2E5 node)
         {
-            base.OutASide2E5(node);
+            Definition vardef;
+            stringhash.TryGetValue(node.GetVariable().Text, out vardef);
+            VariableDefinition vvardef;
+            vvardef = vardef as VariableDefinition;
+            nodehash.Add(node, vvardef.vartype);
         }
 
         public override void OutASide3E5(comp5210.node.ASide3E5 node)
@@ -432,15 +494,25 @@ namespace parser
             else
             {
                 Definition rhs;
-                VariableDefinition lhs;
+                VariableDefinition lhs, arhs;
                 lhs = typedefn as VariableDefinition;
                 nodehash.TryGetValue(node.GetE1(), out rhs);
                 
                 if (lhs.vartype != rhs)
                 {
-                    Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
-                        " variable type does not match assignment.");
-                    nodehash.Add(node, rhs);
+                    arhs = rhs as VariableDefinition;
+                    if (arhs != null && lhs.vartype != arhs.vartype)
+                    {
+                        Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
+                        " variable type does not match assigned variable type.");
+                        nodehash.Add(node, rhs);
+                    }
+                    else
+                    {
+                        Console.WriteLine("[" + node.GetSemicolon().Line + "]: " +
+                        " variable type does not match assignement type.");
+                        nodehash.Add(node, rhs);
+                    }
                 }
                 else
                 {
