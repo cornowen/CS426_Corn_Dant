@@ -243,9 +243,7 @@ namespace parser
 
             if (lhs != rhs)
                 {
-                    Console.WriteLine(lhs);
-                    Console.WriteLine(lhs.name);
-                    Console.WriteLine(rhs);
+                    
                     Console.WriteLine("[" + node.GetPlus().Line + "]: " +
                         " operand types do not match.");
                     nodehash.Add(node, lhs);
